@@ -46,7 +46,7 @@ type,words
 ### Running Bot
 #### Start Bot
 ##### Option 1
-1. Go to folder location where you download this repo
+1. Go to folder location where you downloaded this repo
 2. Double click on Main.py
 ##### Option 2
 1. Open Powershell
