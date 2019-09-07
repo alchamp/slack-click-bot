@@ -1,0 +1,41 @@
+# Create Custom Bot
+1. Go to this link https://my.slack.com/apps/A0F7YS25R-bots
+2. Connect
+3. Add Intergration
+4. Copy API Token Some Where
+6. Copy Bot Name
+5. Scroll Down Save Integration
+
+# Install Python and Slack Client
+1. Install Python https://www.python.org/downloads/release/python-2716/
+2. Install Slack Client C:\Python27\Scripts\pip.exe install slackclient
+3. Install pyautogui C:\Python27\Scripts\pip.exe install pyautogui
+
+# Populate bot.config 
+## Note For INSTRUCTIONS
+`d_input` will be replaced with whatever comes after `snap` i.e. `@testbot snap xyz`
+
+## Current Format
+SLACK_BOT_TOKEN
+SLACK_BOT_USER
+INSTRUCTIONS
+
+## Example Config
+```
+xoxb-0000000-111111-123455566
+testbot
+click,1000,500
+type,d_input
+press,enter,a
+press,enter
+press,enter
+type,words
+```
+
+### Valid Instructions Types
+"click,x,y" : x = left/right postion on screen , y = up/down position on screen 
+"type,text" : text = text that will be typed. 
+"press,a,b,c,..." : a,b,c will be pressed one after another 
+
+### Run Command
+`python -u "PATH\Main.py"`
