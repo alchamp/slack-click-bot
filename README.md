@@ -45,7 +45,13 @@ type,words
 
 ### Running Bot
 #### Start Bot
-1. In powershell or commandline run `C:\Python27\python.exe -u .\Main.py`
+##### Option 1
+1. Go to folder location where you download this repo
+2. Double click on Main.py
+##### Option 2
+1. Open Powershell
+2. Cd into location of repo 
+3. In powershell or commandline run `C:\Python27\python.exe -u .\Main.py`
 #### Use Bot
 1. Go to slack channel 
 2. @ your bot by name to invite your bot to the channel.
