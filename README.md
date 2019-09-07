@@ -43,19 +43,19 @@ type,words
 ```"type,text" : text = text that will be typed. ```<br>
 ```"press,a,b,c,..." : a,b,c will be pressed one after another```<br>
 
-### Running Bot
-#### Start Bot
-##### Option 1
+## Running Bot
+### Start Bot
+#### Option 1
 1. Go to folder location where you downloaded this repo
 2. Double click on Main.py
-##### Option 2
+#### Option 2
 1. Open Powershell
 2. Cd into location of repo 
 3. In powershell or commandline run `C:\Python27\python.exe -u .\Main.py`
-#### Use Bot
+### Use Bot
 1. Go to slack channel 
 2. @ your bot by name to invite your bot to the channel.
 3. @BOTNAME snap xyz i.e. `@testbot snap xyz`
 4. Wait for screenshot to be posted
-#### Stop
+### Stop
 `CTRL-C`
