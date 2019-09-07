@@ -43,5 +43,13 @@ type,words
 ```"type,text" : text = text that will be typed. ```<br>
 ```"press,a,b,c,..." : a,b,c will be pressed one after another```<br>
 
-### Run Command
-`python -u "PATH\Main.py"`
+### Running Bot
+#### Start Bot
+1. In powershell or commandline run `C:\Python27\python.exe -u .\Main.py`
+#### Use Bot
+1. Go to slack channel 
+2. @ your bot by name to invite your bot to the channel.
+3. @BOTNAME snap xyz i.e. `@testbot snap xyz`
+4. Wait for screenshot to be posted
+#### Stop
+`CTRL-C`
