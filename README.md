@@ -1,4 +1,6 @@
-# Create Custom Bot
+This slack bot will do some clicking and typing and then take a screenshot and post it in slack
+
+# Create Slack Custom Bot
 1. Go to this link https://my.slack.com/apps/A0F7YS25R-bots
 2. Connect
 3. Add Intergration
@@ -8,8 +10,8 @@
 
 # Install Python and Slack Client
 1. Install Python https://www.python.org/downloads/release/python-2716/
-2. Install Slack Client C:\Python27\Scripts\pip.exe install slackclient
-3. Install pyautogui C:\Python27\Scripts\pip.exe install pyautogui
+2. Install Slack Client `C:\Python27\Scripts\pip.exe install slackclient`
+3. Install pyautogui `C:\Python27\Scripts\pip.exe install pyautogui`
 
 # Update bot.config 
 ## Note For INSTRUCTIONS
