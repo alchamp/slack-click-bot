@@ -4,7 +4,7 @@ from datetime import datetime
 import time
 
 #remove after testing
-pyautogui.PAUSE = 1.5
+#pyautogui.PAUSE = 1.5
 #remove after testing
 
 class ScreenHelper(object):
@@ -42,7 +42,9 @@ class ScreenHelper(object):
         return path
     
     def do_instructions(self,input):
+        #remove after testing
         time.sleep(5)
+        #remove after testing
         for instruction in self.workflow:
             instruc = instruction.split(',')[0]
             params = instruction.split(',')[1:]

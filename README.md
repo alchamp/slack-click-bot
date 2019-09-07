@@ -11,14 +11,18 @@
 2. Install Slack Client C:\Python27\Scripts\pip.exe install slackclient
 3. Install pyautogui C:\Python27\Scripts\pip.exe install pyautogui
 
-# Populate bot.config 
+# Update bot.config 
 ## Note For INSTRUCTIONS
 `d_input` will be replaced with whatever comes after `snap` i.e. `@testbot snap xyz`
 
 ## Current Format
+```
 SLACK_BOT_TOKEN
 SLACK_BOT_USER
-INSTRUCTIONS
+INSTRUCTION
+...
+INSTRUCTION
+```
 
 ## Example Config
 ```
@@ -33,9 +37,9 @@ type,words
 ```
 
 ### Valid Instructions Types
-"click,x,y" : x = left/right postion on screen , y = up/down position on screen 
-"type,text" : text = text that will be typed. 
-"press,a,b,c,..." : a,b,c will be pressed one after another 
+```"click,x,y" : x = left/right postion on screen , y = up/down position on screen ```<br>
+```"type,text" : text = text that will be typed. ```<br>
+```"press,a,b,c,..." : a,b,c will be pressed one after another```<br>
 
 ### Run Command
 `python -u "PATH\Main.py"`
