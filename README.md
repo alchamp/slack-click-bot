@@ -1,5 +1,7 @@
 This slack bot will do some clicking and typing and then take a screenshot and post it in slack
 
+# Note: This bot will only interact with your primary monitor
+
 # Create Slack Custom Bot
 1. Go to this link https://my.slack.com/apps/A0F7YS25R-bots
 2. Connect
