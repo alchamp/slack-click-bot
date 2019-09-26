@@ -1,6 +1,6 @@
 This slack bot will do some clicking and typing and then take a screenshot and post it in slack
 
-# Note: This bot will only interact with your primary monitor
+# Note: This bot will only interact with your primary monitor (Windows Only Bot)
 
 # Create Slack Custom Bot
 1. Go to this link https://my.slack.com/apps/A0F7YS25R-bots
@@ -14,6 +14,7 @@ This slack bot will do some clicking and typing and then take a screenshot and p
 1. Install Python https://www.python.org/downloads/release/python-2716/
 2. Install Slack Client `C:\Python27\Scripts\pip.exe install slackclient`
 3. Install pyautogui `C:\Python27\Scripts\pip.exe install pyautogui`
+4. Install PyWin32 `C:\Python27\Scripts\pip.exe install PyWin32`
 
 # Update bot.config 
 ## Note For INSTRUCTIONS

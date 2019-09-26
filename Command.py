@@ -3,9 +3,11 @@ import ScreenHelper
 class Command(object):
     def __init__(self,container):
         self.screen_helper = ScreenHelper.ScreenHelper(container)
+        self.os_service = container.GetProvider("OsService")
         self.commands = {
             "snap" : self.snap,
-            "help" : self.help
+            "help" : self.help,
+            "windows" : self.windows
         }
 
     def process(self, user, command):
@@ -33,3 +35,11 @@ class Command(object):
             response += command + "\r\b"
 
         return ("text",response)
+
+    def windows(self,params):
+        response = "I currently have the following windows open:\r\n"
+        levels = 0 if (len(params) == 0) else int(params[0])
+        self.os_service.PopulateWindowsEnumChild(levels)
+        response +=  self.os_service.PrintTree()
+
+        return ("content",response)
