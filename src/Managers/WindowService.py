@@ -2,7 +2,7 @@ import win32gui
 import time
 import ctypes
 import ctypes.wintypes
-import win32com.client
+#import win32com.client
 
 def get_actual_rect(osHandlerModel):
     try:
@@ -28,11 +28,11 @@ def GetRect(osHandlerModel):
 
 class WindowService(object):
     def __init__(self,container):
-        self.shell = win32com.client.Dispatch("WScript.Shell")
+        #self.shell = win32com.client.Dispatch("WScript.Shell")
         pass
 
     def BringForward(self, osHandlerModel):
-        self.shell.SendKeys('%')
+        #self.shell.SendKeys('%')
         win32gui.SetForegroundWindow(osHandlerModel.GetHandlePtr())
     
     def Maximize(self, osHandlerModel):

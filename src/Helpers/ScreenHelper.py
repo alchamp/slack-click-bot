@@ -91,7 +91,11 @@ class ScreenHelper(object):
     def process_press(self,params):
         print "pressing  " + str(params)
         pyautogui.typewrite(params)
-    
+        #text[]
+
+    def processAlt(self):
+        pyautogui.press("alt")
+
     #hotkey[]
     def process_hotkey(self,params):
         print "hotkey  " + str(params)

@@ -55,6 +55,7 @@ class Command(object):
             self.os_service.PopulateWindowsEnumChild(1)
             model = self.os_service.GetWindowByName(name, 1)
             if model:
+                self.screen_helper.processAlt()
                 self._GetWindowService().BringForward(model)
                 return ("file", self.screen_helper.realSaveScreen("raw", self._GetWindowService().GetLeftTopWidthHeight(model)))
             else:
