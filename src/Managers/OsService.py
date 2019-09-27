@@ -1,14 +1,11 @@
 import win32gui
-import win32con
-import pyautogui
-import time
-import OsHandlerModel
+import src.Models.OsHandlerModel as OsHandlerModel
 
 def PopulateWindowHandler(hwnd,data):
     name = win32gui.GetWindowText(hwnd)
     isWindow =  win32gui.IsWindow(hwnd)
     if not not name and isWindow:
-        osHandlerModel = OsHandlerModel.OsHandlerModel(data[1],hwnd,name)
+        osHandlerModel = OsHandlerModel.OsHandlerModel(data[1],hwnd,name,data[2])
         if data[1] > 0:
             try:
                 if data[0]:
@@ -31,6 +28,24 @@ def UserFriendlyTreePrintOut(osHandlerModel,tabs):
     
     return currentNode
 
+def FindNodeInTree(osHandlerModel,nodeName,levels,currentLevel):
+    if currentLevel > levels:
+        return None
+
+    if nodeName in osHandlerModel.GetName().lower(): 
+        return osHandlerModel
+
+    if len(osHandlerModel.GetChildern()) == None:
+        return None 
+
+    found = None
+    for child in osHandlerModel.GetChildern():
+        found = FindNodeInTree(child,nodeName,levels,currentLevel + 1)
+        if found <> None: 
+            break        
+
+    return found
+
 class OsService(object):
     def __init__(self,container):
         self._rootOsHandlerModel = None
@@ -52,6 +67,12 @@ class OsService(object):
             return UserFriendlyTreePrintOut(self._rootOsHandlerModel,"")
         else:
             return "Root Os Handler Model Not Set" 
+    
+    def GetWindowByName(self, name, levels):
+        if self._rootOsHandlerModel <> None:
+            return FindNodeInTree(self._rootOsHandlerModel,name.lower(),levels,0)
+        else:
+            return None
 
 
 

@@ -9,16 +9,18 @@ import time
 
 class ScreenHelper(object):
     def __init__(self,container):
-        config = container.GetProvider("Configuration")
-   
+        self._container = container
         self.root_dir = self.create_year_directory()
-        self.workflow = config.instructions
         self.instructions = {
             "click" : self.process_click,
             "type" : self.process_type,
-            "press" : self.process_press
+            "press" : self.process_press,
+            "hotkey" : self.process_hotkey
         }
-    
+
+    def _GetWorkflow(self):
+        return self._container.GetProvider("Configuration").instructions
+
     def create_year_directory(self):
         year = datetime.today().strftime('%Y')
         year_dir = os.path.join(os.getcwd(), year)
@@ -32,20 +34,35 @@ class ScreenHelper(object):
     def load_test_instructions(self):
         return ['click,1000,500','type,d_input','press,enter,a']
 
-    def save_screen_with_timestamp(self,prefix):
+    def save_screen_with_timestamp(self,prefix,regionIn = None):
         self.do_instructions(prefix)
 
         timeStamp = datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
-        pic = pyautogui.screenshot()
+        if regionIn <> None:
+            pic = pyautogui.screenshot(region=regionIn)
+        else:
+            pic = pyautogui.screenshot()
+
         path = os.path.join(self.root_dir, prefix + '-' + timeStamp + '.png')
         pic.save(path)
         return path
+
+    def realSaveScreen(self,prefix,regionIn = None):
+        timeStamp = datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
+        if regionIn <> None:
+            pic = pyautogui.screenshot(region=regionIn)
+        else:
+            pic = pyautogui.screenshot()
+
+        path = os.path.join(self.root_dir, prefix + '-' + timeStamp + '.png')
+        pic.save(path)
+        return path        
     
     def do_instructions(self,input):
         #remove after testing
         time.sleep(5)
         #remove after testing
-        for instruction in self.workflow:
+        for instruction in self._GetWorkflow():
             instruc = instruction.split(',')[0]
             params = instruction.split(',')[1:]
             finalParams = []
@@ -75,3 +92,10 @@ class ScreenHelper(object):
         print "pressing  " + str(params)
         pyautogui.typewrite(params)
     
+    #hotkey[]
+    def process_hotkey(self,params):
+        print "hotkey  " + str(params)
+        if len(params) == 2:
+            pyautogui.hotkey(params[0],params[1]) 
+        elif len(params) == 3:
+            pyautogui.hotkey(params[0],params[1],params[2]) 
