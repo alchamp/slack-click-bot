@@ -1,4 +1,3 @@
-import src.Managers.Bot as Bot
 import src.Container as Container
 
 def run():
