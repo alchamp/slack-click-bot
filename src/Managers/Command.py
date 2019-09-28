@@ -3,8 +3,6 @@ import src.Helpers.ScreenHelper as ScreenHelper
 class Command(object):
     def __init__(self,container):
         self._container = container
-        self.screen_helper = ScreenHelper.ScreenHelper(container)
-        self.os_service = container.GetProvider("OsService")
         self.commands = {
             "snap" : self.snap,
             "help" : self.help,
@@ -12,9 +10,18 @@ class Command(object):
             "raw" : self.raw
         }
 
-    def _GetWindowService(self):
-        return self._container.GetProvider("WindowService")
+    def _GetScreenHelper(self):
+        return self._container.GetProvider("ScreenHelper")
 
+    def _GetOsService(self):
+        return self._container.GetProvider("OsService")
+
+    def _GetWindowManager(self):
+        return self._container.GetProvider("WindowManager")
+    
+    def ProcessCommand(self, user, command):
+         return  self.process( user, command)
+    
     def process(self, user, command):
         responseUser = "<@" + user + ">: "
         commandTrigger = command.split(' ')[0]
@@ -28,7 +35,7 @@ class Command(object):
 
     def snap(self, params):
         if(len(params) == 1):
-            return ("file", self.screen_helper.save_screen_with_timestamp(params[0]))
+            return ("file", self._GetScreenHelper().save_screen_with_timestamp(params[0]))
         else:          
             return ("text","Expecting only 1 param")
 
@@ -44,20 +51,19 @@ class Command(object):
     def windows(self,params):
         response = "I currently have the following windows open:\r\n"
         levels = 0 if (len(params) == 0) else int(params[0])
-        self.os_service.PopulateWindowsEnumChild(levels)
-        response +=  self.os_service.PrintTree()
+        self._GetOsService().PopulateWindowsEnumChild(levels)
+        response +=  self._GetOsService().PrintTree()
 
         return ("content",response)
 
     def raw(self, params):
         if(len(params) > 0):
             name = " ".join(params)
-            self.os_service.PopulateWindowsEnumChild(1)
-            model = self.os_service.GetWindowByName(name, 1)
+            self._GetOsService().PopulateWindowsEnumChild(1)
+            model = self._GetOsService().GetWindowByName(name, 1)
             if model:
-                self.screen_helper.processAlt()
-                self._GetWindowService().BringForward(model)
-                return ("file", self.screen_helper.realSaveScreen("raw", self._GetWindowService().GetLeftTopWidthHeight(model)))
+                self._GetWindowManager().BringForward(model)
+                return ("file", self._GetScreenHelper().realSaveScreen("raw", self._GetWindowManager().GetLeftTopWidthHeight(model)))
             else:
                 return ("text","Could Not Find Window: " + name)
         else:          

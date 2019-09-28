@@ -17,6 +17,9 @@ class ScreenHelper(object):
             "press" : self.process_press,
             "hotkey" : self.process_hotkey
         }
+    
+    def _GetInteractionService(self):
+        return self._container.GetProvider("InteractionService")
 
     def _GetWorkflow(self):
         return self._container.GetProvider("Configuration").instructions
@@ -79,27 +82,16 @@ class ScreenHelper(object):
 
     #x,y
     def process_click(self,params):
-        print "clicking " + str(params)
-        pyautogui.click(int(params[0]),int(params[1]))
+        self._GetInteractionService().ProcessClick(params)
 
     #text
     def process_type(self,params):
-        print "typing " + str(params)
-        pyautogui.typewrite(params[0])
+        self._GetInteractionService().ProcessType(params[0])
 
     #text[]
     def process_press(self,params):
-        print "pressing  " + str(params)
-        pyautogui.typewrite(params)
-        #text[]
-
-    def processAlt(self):
-        pyautogui.press("alt")
+        self._GetInteractionService().ProcessPress(params)
 
     #hotkey[]
     def process_hotkey(self,params):
-        print "hotkey  " + str(params)
-        if len(params) == 2:
-            pyautogui.hotkey(params[0],params[1]) 
-        elif len(params) == 3:
-            pyautogui.hotkey(params[0],params[1],params[2]) 
+        self._GetInteractionService().ProcessHotkey(params)

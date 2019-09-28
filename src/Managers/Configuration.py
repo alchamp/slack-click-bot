@@ -10,3 +10,12 @@ class Configuration(object):
         self.bot_token = content[0]
         self.bot_name = content[1]
         self.instructions = content[2:]
+
+    def GetBotToken(self):
+        return self.bot_token 
+
+    def GetBotName(self):
+        return self.bot_name 
+    
+    def GetTriggerAlias(self):
+        return "ss"

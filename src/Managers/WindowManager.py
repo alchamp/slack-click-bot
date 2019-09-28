@@ -26,13 +26,17 @@ def GetRect(osHandlerModel):
     (left, top, right, bottom) = win32gui.GetWindowRect(osHandlerModel.GetHandlePtr())
     return (left, top, right, bottom) 
 
-class WindowService(object):
+class WindowManager(object):
     def __init__(self,container):
+        self._container = container
         #self.shell = win32com.client.Dispatch("WScript.Shell")
         pass
-
+    
+    def GetInteractionService(self):
+        return self._container.GetProvider("InteractionService")
+        
     def BringForward(self, osHandlerModel):
-        #self.shell.SendKeys('%')
+        self.GetInteractionService().PressAlt()
         win32gui.SetForegroundWindow(osHandlerModel.GetHandlePtr())
     
     def Maximize(self, osHandlerModel):
