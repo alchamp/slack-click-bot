@@ -7,7 +7,7 @@
         {"command":"press", "params":["1","enter","u","i"]},
         {"command":"type", "params":["d_input0"]},
         {"command":"press", "params":["enter","5","7"]},
-        {"command":"type", "params":["Typeing some words"]},
+        {"command":"type", "params":["Typing some words"]},
         {"command":"screenshot"}
      ]
  }
