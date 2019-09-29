@@ -1,5 +1,3 @@
-import src.Helpers.ScreenHelper as ScreenHelper
-
 class Command(object):
     def __init__(self,container):
         self._container = container
@@ -22,6 +20,9 @@ class Command(object):
     def ProcessCommand(self, user, command):
          return  self.process( user, command)
     
+    def GetWorkFlowCommandManager(self):
+        return self._container.GetProvider("WorkFlowCommandManager")
+
     def process(self, user, command):
         responseUser = "<@" + user + ">: "
         commandTrigger = command.split(' ')[0]
@@ -45,7 +46,7 @@ class Command(object):
 
         for command in self.commands:
             response += command + "\r\b"
-
+#        workflowCommand = 
         return ("text",response)
 
     def windows(self,params):

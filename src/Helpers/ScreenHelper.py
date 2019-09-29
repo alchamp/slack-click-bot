@@ -15,7 +15,8 @@ class ScreenHelper(object):
             "click" : self.process_click,
             "type" : self.process_type,
             "press" : self.process_press,
-            "hotkey" : self.process_hotkey
+            "hotkey" : self.process_hotkey,
+            "screenshot":self.process_screenshot
         }
     
     def _GetInteractionService(self):
@@ -79,6 +80,12 @@ class ScreenHelper(object):
                 self.instructions[instruc](finalParams)
             else:
                 exit("ERROR, Invalid Instructions")
+    
+    def DoInstruction(self, instrucName,params):
+        if instrucName in self.instructions:
+            self.instructions[instrucName](params)
+        else:
+            exit("ERROR, Invalid Instructions")    
 
     #x,y
     def process_click(self,params):
@@ -95,3 +102,7 @@ class ScreenHelper(object):
     #hotkey[]
     def process_hotkey(self,params):
         self._GetInteractionService().ProcessHotkey(params)
+    
+    #hotkey[]
+    def process_screenshot(self,params):
+        pass

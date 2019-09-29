@@ -1,0 +1,13 @@
+{
+    "argcount": 1,
+     "windowname":"notepad",
+     "commands":
+     [ 
+        {"command":"click", "params":["300","300"]},
+        {"command":"press", "params":["1","enter","u","i"]},
+        {"command":"type", "params":["d_input0"]},
+        {"command":"press", "params":["enter","5","7"]},
+        {"command":"type", "params":["Typeing some words"]},
+        {"command":"screenshot"}
+     ]
+ }
