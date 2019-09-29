@@ -4,6 +4,10 @@ def run():
     print "Welcome"
     container = Container.Container()
     botManager = container.GetProvider("BotManager")
+    
+    workFlowCommandManager = container.GetProvider("WorkFlowCommandManager")
+    workFlowCommandManager.Initialize()
+
     botManager.Login()
     botManager.Start()
 

@@ -88,5 +88,5 @@ class WorkflowExecutor(object):
     
     #hotkey[]
     def execute_screenshot(self,params,osHandlerModel,channel,user):
-        screenshot = self.GetScreenHelper().realSaveScreen("raw" +str(random.randint(0,1000)), self.GetWindowManager().GetLeftTopWidthHeight(osHandlerModel))
+        screenshot = self.GetScreenHelper().realSaveScreen("image" +str(random.randint(0,1000)), self.GetWindowManager().GetLeftTopWidthHeight(osHandlerModel))
         self.GetBotService().UploadFile(channel, '',screenshot)

@@ -17,18 +17,24 @@ class Command(object):
     def _GetWindowManager(self):
         return self._container.GetProvider("WindowManager")
     
-    def ProcessCommand(self, user, command):
-         return  self.process( user, command)
-    
     def GetWorkFlowCommandManager(self):
         return self._container.GetProvider("WorkFlowCommandManager")
+    
+    def GetWorkflowExecutor(self):
+        return self._container.GetProvider("WorkflowExecutor")
 
-    def process(self, user, command):
+    def ProcessCommand(self, user,channel, command):
+         return  self.process( user,channel, command)
+
+    def process(self, user, channel,command):
         responseUser = "<@" + user + ">: "
         commandTrigger = command.split(' ')[0]
         commandParams = command.split(' ')[1:]
         if commandTrigger in self.commands:
             response = self.commands[commandTrigger](commandParams)
+        elif self.GetWorkFlowCommandManager().HasCommand(commandTrigger):
+            self.GetWorkflowExecutor().Execute(commandTrigger,commandParams,channel,user)
+            response = ("text","Done Proccessing Workflow command")
         else:
             response = ("text","Unknown command")
         
@@ -46,7 +52,11 @@ class Command(object):
 
         for command in self.commands:
             response += command + "\r\b"
-#        workflowCommand = 
+        
+        response += "Available Workflow Commands:\r\n"
+        for workflowCommand in self.GetWorkFlowCommandManager().GetCommandNames():
+            response += workflowCommand + "\r\b"
+
         return ("text",response)
 
     def windows(self,params):

@@ -24,7 +24,7 @@ class EventManager(object):
     def ProcessEvent(self,user,command,channel):
         if command and channel:
             print "Command: " + command + " Channel: " + channel +" User: " + user
-            response = self.GetCommandManager().ProcessCommand(user,command)
+            response = self.GetCommandManager().ProcessCommand(user,channel,command)
             print str(response)            
             if(response[0][0] == 'text'):
                 self.GetBotService().PostTextMessage(response[1],channel, response[0][1])
