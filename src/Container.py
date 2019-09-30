@@ -4,6 +4,7 @@ import Managers.EventManager as EventManager
 import Managers.BotManager as BotManager
 import Managers.WorkFlowCommandManager as WorkFlowCommandManager
 import Managers.WorkflowExecutor as WorkflowExecutor
+import Managers.LogManager as LogManager
 
 import Helpers.ScreenHelper as ScreenHelper
 
@@ -12,7 +13,6 @@ import Services.OsService as OsService
 import Services.BotService as BotService
 import Services.WorkFlowService as WorkFlowService
 import Services.SlackCommandService as SlackCommandService
-
 
 import Managers.Command as Command
 
@@ -32,8 +32,12 @@ class Container(object):
             "SlackCommandService" : SlackCommandService.SlackCommandService(self),
             "WorkFlowService" : WorkFlowService.WorkFlowService(self),
             "WorkFlowCommandManager" : WorkFlowCommandManager.WorkFlowCommandManager(self),
-            "WorkflowExecutor" : WorkflowExecutor.WorkflowExecutor(self)
+            "WorkflowExecutor" : WorkflowExecutor.WorkflowExecutor(self),
+            "LogManager" : LogManager.LogManager(self)
         }
     
     def GetProvider(self,name):
         return self.providers[name]
+
+    def Logger(self):
+        return self.GetProvider("LogManager").GetLogger()

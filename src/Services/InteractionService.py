@@ -11,23 +11,23 @@ class InteractionService(object):
 
     #x,y
     def ProcessClick(self,params):
-        print "clicking " + str(params)
+        self._container.Logger().debug("clicking " + str(params))
         pyautogui.click(int(params[0]),int(params[1]))
 
     #text
     def ProcessType(self,params):
-        print "typing " + str(params)
+        self._container.Logger().debug("typing " + str(params))
         pyautogui.typewrite(params[0])
 
     #text[]
     def ProcessPress(self,params):
-        print "pressing  " + str(params)
+        self._container.Logger().debug("pressing  " + str(params))
         pyautogui.typewrite(params)
         #text[]
 
     #hotkey[]
     def ProcessHotkey(self,params):
-        print "hotkey  " + str(params)
+        self._container.Logger().debug("hotkey  " + str(params))
         if len(params) == 2:
             pyautogui.hotkey(params[0],params[1]) 
         elif len(params) == 3:
@@ -35,4 +35,5 @@ class InteractionService(object):
 
     # used for bringing window forward
     def PressAlt(self):
+        self._container.Logger().debug("pressing alt")
         pyautogui.press("alt")

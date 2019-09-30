@@ -1,6 +1,7 @@
 {
     "argcount": 1,
      "windowname":"notepad",
+     "excludednames":["notepad++"],
      "commands":
      [ 
         {"command":"click", "params":["300","300"]},

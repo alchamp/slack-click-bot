@@ -3,14 +3,17 @@ import time
 
 class BotService(object):
     def __init__(self,container):
+        self._container = container
         self._client = None
         self._name = None
         self._id = None
     
-    def initialize(self,token,name):
+    def initialize(self,token,name,logging_channel):
         self._client = SlackClient(token)
         self._name = name     
+        self._logging_channel = logging_channel
         self._id = self._GetIdByName()
+        self._loggingChannelId = self._GetLoggingChannel()
         if self._id is None:
             exit("Error could not find" + self._name)
 
@@ -19,7 +22,20 @@ class BotService(object):
 
     def GetId(self):
         return self._id 
+    
+    def GetLoggingChannelId(self):
+        return self._loggingChannelId
 
+    def _GetLoggingChannel(self):
+        api_call = self._client.api_call("channels.list",exclude_members=True,exclude_archived=True)
+        if api_call.get('ok'):
+            # find bot id by name
+            channels = api_call.get('channels')
+            for channel in channels:
+                if 'name' in channel and channel.get('name') == self._logging_channel:
+                    return channel.get('id')                    
+            return None
+            
     def _GetIdByName(self):
         api_call = self._client.api_call("users.list")
         if api_call.get('ok'):
@@ -33,7 +49,7 @@ class BotService(object):
 
     def ListenForEvents(self, sleepTime, processEventCallBack):
         if self._client.rtm_connect(with_team_state= False):
-            print "Starting"
+            self._container.Logger().info("ListenForEvents Starting")
             while True:
                 for event in self.ReadEvents():
                     processEventCallBack(event)

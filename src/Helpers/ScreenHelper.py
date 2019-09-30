@@ -32,7 +32,7 @@ class ScreenHelper(object):
             if not os.path.isdir(year_dir):
                 os.makedirs(year_dir)
         except OSError:
-            print "Directory Exist"
+            self._container.Logger().debug("Directory Exist")
         return year_dir
 
     def load_test_instructions(self):

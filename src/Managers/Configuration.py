@@ -19,3 +19,9 @@ class Configuration(object):
     
     def GetTriggerAlias(self):
         return "ss"
+    
+    def GetAlwaysOn(self):
+        return True
+
+    def GetBotLoggingChannelName(self):
+        return "botlogging"

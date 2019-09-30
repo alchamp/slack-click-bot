@@ -51,7 +51,6 @@ class WindowManager(object):
     
     def GetWidthHeight(self,osHandlerModel):
         (left, top, right, bottom)  = get_actual_rect(osHandlerModel)
-        print "t"+ str((left, top, right, bottom))
         height = bottom - top
         width = right - left
         return (width , height) 

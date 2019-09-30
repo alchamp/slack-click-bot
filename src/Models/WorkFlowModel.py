@@ -5,14 +5,16 @@ class WorkFlowModel(JsonModel.JsonModel):
     def __init__(self,name):
         self.name = name
         self.windowname = None
+        self.excludednames = []
         self.commands = []
         self.argcount = None
 
     def ParseDict(self,obj):
         self.windowname = obj["windowname"]
         self.argcount = obj["argcount"] if "argcount" in obj  else None
-        commands = obj["commands"] if "commands" in obj  else []
+        self.excludednames = obj["excludednames"] if "excludednames" in obj  else []
 
+        commands = obj["commands"] if "commands" in obj  else []
         for cmd in commands:
             self.commands.append(CommandModel.CommandModel.Parse(cmd))
 

@@ -28,19 +28,24 @@ def UserFriendlyTreePrintOut(osHandlerModel,tabs):
     
     return currentNode
 
-def FindNodeInTree(osHandlerModel,nodeName,levels,currentLevel):
+def FindNodeInTree(osHandlerModel,nodeName,levels,currentLevel,excludedNames):
     if currentLevel > levels:
         return None
 
     if nodeName in osHandlerModel.GetName().lower(): 
-        return osHandlerModel
+        foundEx = False
+        for exName in excludedNames:
+             if exName.lower() in osHandlerModel.GetName().lower(): 
+                 foundEx = True
+        if foundEx == False:
+            return osHandlerModel
 
     if len(osHandlerModel.GetChildern()) == None:
         return None 
 
     found = None
     for child in osHandlerModel.GetChildern():
-        found = FindNodeInTree(child,nodeName,levels,currentLevel + 1)
+        found = FindNodeInTree(child,nodeName,levels,currentLevel + 1,excludedNames)
         if found <> None: 
             break        
 
@@ -68,9 +73,9 @@ class OsService(object):
         else:
             return "Root Os Handler Model Not Set" 
     
-    def GetWindowByName(self, name, levels):
+    def GetWindowByName(self, name, levels,excludedNames = []):
         if self._rootOsHandlerModel <> None:
-            return FindNodeInTree(self._rootOsHandlerModel,name.lower(),levels,0)
+            return FindNodeInTree(self._rootOsHandlerModel,name.lower(),levels,0,excludedNames)
         else:
             return None
 

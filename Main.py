@@ -1,8 +1,8 @@
 import src.Container as Container
 
 def run():
-    print "Welcome"
     container = Container.Container()
+    container.Logger().debug("Welcome")
     botManager = container.GetProvider("BotManager")
     
     workFlowCommandManager = container.GetProvider("WorkFlowCommandManager")
@@ -10,7 +10,6 @@ def run():
 
     botManager.Login()
     botManager.Start()
-
     
 if __name__ == "__main__":
     run()

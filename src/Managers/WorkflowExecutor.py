@@ -33,7 +33,7 @@ class WorkflowExecutor(object):
 
     def ExecuteWorkFlow(self,workflowModel,inputs,channel,user):
         #get window
-        osHandlerModel = self.GetWindowModel(workflowModel.windowname)
+        osHandlerModel = self.GetWindowModel(workflowModel.windowname,workflowModel.excludednames)
 
         #bring window forward
         if osHandlerModel:
@@ -44,9 +44,9 @@ class WorkflowExecutor(object):
             self.ExecuteInstruction(commandModel,inputs,channel,user,osHandlerModel)
         pass
 
-    def GetWindowModel(self,name):
+    def GetWindowModel(self,name,exNames):
             self.GetOsService().PopulateWindowsEnumChild(1)
-            model = self.GetOsService().GetWindowByName(name, 1)
+            model = self.GetOsService().GetWindowByName(name, 1,exNames)
 
             return model
     def ParamsSubInputs(self,params,inputs):
@@ -63,11 +63,12 @@ class WorkflowExecutor(object):
         return finalParams
 
     def ExecuteInstruction(self, commandModel,inputs,channel,user,osHandlerModel):
-        finalParams = self.ParamsSubInputs(commandModel.params,inputs)
         if commandModel.command in self.instructions:
+            finalParams = self.ParamsSubInputs(commandModel.params,inputs)
             self.instructions[commandModel.command](finalParams,osHandlerModel,channel,user)
         else:
-            exit("ERROR, Invalid Instructions")  
+            self._container.Logger().error("invalid instruction " + commandModel.command)
+            raise Exception("ERROR, Invalid Instructions")  
  
     #x,y
     def execute_click(self,params,osHandlerModel,channel,user):
