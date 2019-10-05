@@ -27,7 +27,7 @@ class Command(object):
          return  self.process( user,channel, command)
 
     def process(self, user, channel,command):
-        responseUser = "<@" + user + ">: "
+        responseUser = user
         commandTrigger = command.split(' ')[0]
         commandParams = command.split(' ')[1:]
         if commandTrigger in self.commands:

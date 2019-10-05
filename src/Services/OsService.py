@@ -1,5 +1,6 @@
 import win32gui
 import src.Models.OsHandlerModel as OsHandlerModel
+import os
 
 def PopulateWindowHandler(hwnd,data):
     name = win32gui.GetWindowText(hwnd)
@@ -79,5 +80,11 @@ class OsService(object):
         else:
             return None
 
-
+    def StartProgram(self,programPath):
+        try:
+            os.startfile(programPath)
+            return True
+        except: 
+            return False
+        
 

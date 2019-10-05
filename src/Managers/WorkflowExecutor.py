@@ -1,5 +1,6 @@
 import time
 import random
+
 class WorkflowExecutor(object):
     def __init__(self,container):
         self._container = container
@@ -34,15 +35,27 @@ class WorkflowExecutor(object):
     def ExecuteWorkFlow(self,workflowModel,inputs,channel,user):
         #get window
         osHandlerModel = self.GetWindowModel(workflowModel.windowname,workflowModel.excludednames)
-
+        if osHandlerModel == None:
+            if workflowModel.program <> None:
+                success = self.GetOsService().StartProgram(workflowModel.program)
+                if success:
+                    if workflowModel.programdelay <> None:
+                        messageOut = " Attempting To Start `" + str(workflowModel.program) + "` Sleeping For `" + str(workflowModel.programdelay) + "` Seconds"
+                        self.GetBotService().PostTextMessage(user,channel, messageOut)
+                        time.sleep(workflowModel.programdelay)
+                    #get window
+                    osHandlerModel = self.GetWindowModel(workflowModel.windowname,workflowModel.excludednames)  
+        
         #bring window forward
         if osHandlerModel:
             self.GetWindowManager().BringForward(osHandlerModel)
 
-        #execute instruction
-        for commandModel in workflowModel.commands:
-            self.ExecuteInstruction(commandModel,inputs,channel,user,osHandlerModel)
-        pass
+            #execute instruction
+            for commandModel in workflowModel.commands:
+                self.ExecuteInstruction(commandModel,inputs,channel,user,osHandlerModel)
+        else:
+            messageOut = " Could Not Find `" + str(workflowModel.windowname) + "` Skipping Workflow `" +  str(workflowModel.name) + "`"
+            self.GetBotService().PostTextMessage(user,channel, messageOut) 
 
     def GetWindowModel(self,name,exNames):
             self.GetOsService().PopulateWindowsEnumChild(1)

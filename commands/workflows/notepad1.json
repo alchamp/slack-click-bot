@@ -1,7 +1,9 @@
 {
-    "argcount": 1,
+     "argcount": 1,
      "windowname":"notepad",
-     "excludednames":["notepad++"],
+     "program":"C:\\windows\\system32\\notepad.exe",
+     "programdelay":2,
+     "excludednames":["notepad++","Visual Studio Code"],
      "commands":
      [ 
         {"command":"click", "params":["300","300"]},

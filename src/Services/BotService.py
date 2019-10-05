@@ -69,7 +69,7 @@ class BotService(object):
     def PostTextMessage(self,userToAddress, channel, message):
         finalUserName = None
         if(userToAddress <> None and len(userToAddress) > 1 and userToAddress[:1] <> "@"):
-            userToAddress = "@" + userToAddress
+            userToAddress = "<@" + userToAddress + ">: "
         finalUserName = userToAddress if userToAddress <> None else ""
         finalResponse = finalUserName + message
         self._client.api_call("chat.postMessage", channel=channel,text=finalResponse,as_user = True)
