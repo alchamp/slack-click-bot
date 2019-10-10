@@ -4,7 +4,7 @@ import src.Models.SlackCommandModel as SlackCommandModel
 class SlackCommandService(object):
     def __init__(self,container):
         self._container = container
-        self.directory = os.path.join(os.getcwd(), "commands\slackcommands")
+        self.directory = os.path.join(os.getcwd(), "commands\\slackcommands")
         self.slackCommands = {}
 
     def LoadSlackCommands(self):

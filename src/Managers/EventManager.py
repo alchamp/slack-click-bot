@@ -18,7 +18,7 @@ class EventManager(object):
 
     def CallBack(self,event):
         (command,user,channel) = self.ParseEvent(event)
-        if command <> None:
+        if command <> None and user not in self.GetBotService().GetId():
             self.ProcessEvent(user,command,channel)  
     
     def ProcessEvent(self,user,command,channel):

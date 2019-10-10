@@ -15,7 +15,7 @@ class BotService(object):
         self._id = self._GetIdByName()
         self._loggingChannelId = self._GetLoggingChannel()
         if self._id is None:
-            exit("Error could not find" + self._name)
+            exit("Error could not find " + str(self._name))
 
     def IsReady(self):
         return self._id <> None and  self._client.rtm_connect(with_team_state= False)
