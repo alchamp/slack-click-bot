@@ -39,7 +39,7 @@ class BotManager(object):
                 except Exception as error:
                     user = "<@" + event['user'] + ">: "
                     self._container.Logger().exception(error)
-                    self.GetBotService().PostTextMessage(user,event['channel'], "!!COMMAND FAILED!! Check #"+self.GetConfigManager().GetBotLoggingChannelName()  +" for more info")
+                    self.GetBotService().PostTextMessage(user,event['channel'], "!!COMMAND FAILED!! Check #"+ str(self.GetConfigManager().GetBotLoggingChannelName())  +" for more info")
                     if not self.GetConfigManager().GetAlwaysOn():
                         raise                        
         else:

@@ -4,7 +4,7 @@ import src.Models.WorkFlowModel as WorkFlowModel
 class WorkFlowService(object):
     def __init__(self,container):
         self._container = container
-        self.workflowDir = os.path.join(os.getcwd(), "commands\workflows")
+        self.workflowDir = os.path.join(os.getcwd(), "commands\\workflows")
         self.workflows = {}
 
     def LoadWorkflows(self):

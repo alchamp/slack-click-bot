@@ -2,10 +2,10 @@ class Command(object):
     def __init__(self,container):
         self._container = container
         self.commands = {
-            "snap" : self.snap,
             "help" : self.help,
             "windows" : self.windows,
-            "raw" : self.raw
+            "raw" : self.raw,
+            "testerror": self.testerror
         }
 
     def _GetScreenHelper(self):
@@ -40,20 +40,14 @@ class Command(object):
         
         return (response, responseUser)
 
-    def snap(self, params):
-        if(len(params) == 1):
-            return ("file", self._GetScreenHelper().save_screen_with_timestamp(params[0]))
-        else:          
-            return ("text","Expecting only 1 param")
-
 
     def help(self,params):
-        response = "Available Commands:\r\n"
+        response = "\r\nAvailable Commands:\r\n"
 
         for command in self.commands:
             response += command + "\r\b"
         
-        response += "Available Workflow Commands:\r\n"
+        response += "\r\nAvailable Workflow Commands:\r\n"
         for workflowCommand in self.GetWorkFlowCommandManager().GetCommandNames():
             response += workflowCommand + "\r\b"
 
@@ -79,4 +73,6 @@ class Command(object):
                 return ("text","Could Not Find Window: " + name)
         else:          
             return ("text","Expecting String after `name`")
-
+       
+    def testerror(self,params):
+        raise Exception("This is an exception test")

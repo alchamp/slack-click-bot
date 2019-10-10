@@ -1,15 +1,18 @@
 import os
+import src.Models.ConfigurationModel as ConfigurationModel
 
 class Configuration(object):
     def __init__(self):
         self.config_file_path = os.path.join(os.getcwd(), "bot.config")
+        configurationModel = None
         #Read config file
         with open(self.config_file_path) as f:
-            content = f.readlines()
-        content = [x.strip() for x in content] 
-        self.bot_token = content[0]
-        self.bot_name = content[1]
-        self.instructions = content[2:]
+            configurationModel = ConfigurationModel.ConfigurationModel.Parse(f.read())
+        
+        self.bot_token = configurationModel.GetToken()
+        self.bot_name = configurationModel.GetName()
+        self.bot_alias = configurationModel.GetAlias()
+        self.bot_logging_channel = configurationModel.GetLoggingChannel()
 
     def GetBotToken(self):
         return self.bot_token 
@@ -18,10 +21,10 @@ class Configuration(object):
         return self.bot_name 
     
     def GetTriggerAlias(self):
-        return "ss"
+        return self.bot_alias
     
     def GetAlwaysOn(self):
         return True
 
     def GetBotLoggingChannelName(self):
-        return "botlogging"
+        return self.bot_logging_channel
