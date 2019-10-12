@@ -36,10 +36,13 @@ class BotManager(object):
                         for event in events:
                             callback(event)
                     time.sleep(1)
-                except Exception as error:
-                    user = "<@" + event['user'] + ">: "
-                    self._container.Logger().exception(error)
-                    self.GetBotService().PostTextMessage(user,event['channel'], "!!COMMAND FAILED!! Check #"+ str(self.GetConfigManager().GetBotLoggingChannelName())  +" for more info")
+                except Exception as error:                                       
+                    try:
+                        self._container.Logger().exception(error)
+                        user = "<@" + event['user'] + ">: "
+                        self.GetBotService().PostTextMessage(user,event['channel'], "!!COMMAND FAILED!! Check #"+ str(self.GetConfigManager().GetBotLoggingChannelName())  +" for more info")
+                    except:
+                        pass
                     if not self.GetConfigManager().GetAlwaysOn():
                         raise                        
         else:
