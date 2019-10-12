@@ -9,7 +9,8 @@ class WorkflowExecutor(object):
             "type" : self.execute_type,
             "press" : self.execute_press,
             "hotkey" : self.execute_hotkey,
-            "screenshot":self.execute_screenshot
+            "screenshot":self.execute_screenshot,
+            "delay":self.execute_delay
         }
 
     def GetWorkFlowCommandManager(self):
@@ -104,3 +105,8 @@ class WorkflowExecutor(object):
     def execute_screenshot(self,params,osHandlerModel,channel,user):
         screenshot = self.GetScreenHelper().realSaveScreen("image" +str(random.randint(0,1000)), self.GetWindowManager().GetLeftTopWidthHeight(osHandlerModel))
         self.GetBotService().UploadFile(channel, '',screenshot)
+
+    #sleep,seconds
+    def execute_delay(self,params,osHandlerModel,channel,user):
+        self.GetOsService().Sleep(int(params[0]))
+

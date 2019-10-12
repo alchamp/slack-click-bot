@@ -1,6 +1,7 @@
 import win32gui
 import src.Models.OsHandlerModel as OsHandlerModel
 import os
+import time
 
 def PopulateWindowHandler(hwnd,data):
     name = win32gui.GetWindowText(hwnd)
@@ -87,4 +88,6 @@ class OsService(object):
         except: 
             return False
         
-
+    # used for bringing window forward
+    def Sleep(self,seconds):
+        time.sleep(seconds)

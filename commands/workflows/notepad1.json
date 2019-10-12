@@ -2,7 +2,7 @@
      "argcount": 1,
      "windowname":"notepad",
      "program":"C:\\windows\\system32\\notepad.exe",
-     "programdelay":2,
+     "programdelay":3,
      "excludednames":["notepad++","Visual Studio Code"],
      "commands":
      [ 

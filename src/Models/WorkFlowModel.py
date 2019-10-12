@@ -16,7 +16,7 @@ class WorkFlowModel(JsonModel.JsonModel):
         self.argcount = obj["argcount"] if "argcount" in obj  else None
         self.excludednames = obj["excludednames"] if "excludednames" in obj  else []
         self.program = obj["program"] if "program" in obj  else None
-        self.programdelay = obj["programdelay"] if "programdelay" in obj  else None
+        self.programdelay = int(obj["programdelay"]) if "programdelay" in obj  else None
 
         commands = obj["commands"] if "commands" in obj  else []
         for cmd in commands:
