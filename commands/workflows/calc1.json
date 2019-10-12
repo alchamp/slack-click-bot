@@ -1,0 +1,22 @@
+{
+    "windowname":"calculator",
+    "program":"C:\\Windows\\System32\\calc.exe",
+    "programdelay":"3",
+    "excludednames":["chrome","google"],
+    "commands":
+    [
+        {"command":"delay","params":["1"]},
+        {"command":"hotkey","params":["alt","2"]},
+        {"command":"press","params":["d_input0","+","d_input1","enter"]},
+        {"command":"delay","params":["1"]},
+        {"command":"screenshot"},
+        {"command":"hotkey","params":["alt","1"]},
+        {"command":"press","params":["d_input1","+","d_input1","enter"]},
+        {"command":"delay","params":["1"]},
+        {"command":"screenshot"},
+        {"command":"hotkey","params":["alt","3"]},
+        {"command":"press","params":["d_input0","+","d_input0","enter"]},
+        {"command":"delay","params":["1"]},
+        {"command":"screenshot"}
+    ]
+}
