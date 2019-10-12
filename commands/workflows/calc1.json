@@ -7,16 +7,19 @@
     [
         {"command":"delay","params":["1"]},
         {"command":"hotkey","params":["alt","2"]},
+        {"command":"delay","params":[".5"]},
         {"command":"press","params":["d_input0","+","d_input1","enter"]},
-        {"command":"delay","params":["1"]},
+        {"command":"delay","params":[".5"]},
         {"command":"screenshot"},
         {"command":"hotkey","params":["alt","1"]},
+        {"command":"delay","params":[".5"]},
         {"command":"press","params":["d_input1","+","d_input1","enter"]},
-        {"command":"delay","params":["1"]},
+        {"command":"delay","params":[".5"]},
         {"command":"screenshot"},
         {"command":"hotkey","params":["alt","3"]},
+        {"command":"delay","params":[".5"]},
         {"command":"press","params":["d_input0","+","d_input0","enter"]},
-        {"command":"delay","params":["1"]},
+        {"command":"delay","params":[".5"]},
         {"command":"screenshot"}
-    ]
+        ]
 }

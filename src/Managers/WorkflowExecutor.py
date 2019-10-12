@@ -108,5 +108,5 @@ class WorkflowExecutor(object):
 
     #sleep,seconds
     def execute_delay(self,params,osHandlerModel,channel,user):
-        self.GetOsService().Sleep(int(params[0]))
+        self.GetOsService().Sleep(float(params[0]))
 
