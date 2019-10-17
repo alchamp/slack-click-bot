@@ -33,11 +33,14 @@ def UserFriendlyTreePrintOut(osHandlerModel,tabs):
 def FindNodeInTree(osHandlerModel,nodeName,levels,currentLevel,excludedNames):
     if currentLevel > levels:
         return None
-
-    if nodeName in osHandlerModel.GetName().lower(): 
+    
+    winname = osHandlerModel.GetName().decode(encoding='UTF-8',errors='ignore').lower()
+    nodeNameIn = nodeName.decode(encoding='UTF-8',errors='ignore').lower()
+    if nodeNameIn in winname: 
         foundEx = False
         for exName in excludedNames:
-             if exName.lower() in osHandlerModel.GetName().lower(): 
+             uuu = exName.decode(encoding='UTF-8',errors='ignore').lower()
+             if uuu in winname: 
                  foundEx = True
         if foundEx == False:
             return osHandlerModel

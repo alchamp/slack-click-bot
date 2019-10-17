@@ -6,6 +6,7 @@ class WorkflowExecutor(object):
         self._container = container
         self.instructions = {
             "click" : self.execute_click,
+            "doubleclick" : self.execute_doubleclick,
             "type" : self.execute_type,
             "press" : self.execute_press,
             "hotkey" : self.execute_hotkey,
@@ -50,6 +51,8 @@ class WorkflowExecutor(object):
         #bring window forward
         if osHandlerModel:
             self.GetWindowManager().BringForward(osHandlerModel)
+            time.sleep(.5)
+            self.GetWindowManager().Maximize(osHandlerModel)
 
             #execute instruction
             for commandModel in workflowModel.commands:
@@ -88,7 +91,10 @@ class WorkflowExecutor(object):
     def execute_click(self,params,osHandlerModel,channel,user):
         windowPoint = self.GetWindowManager().GetWindowPointToScreen(osHandlerModel, int(params[0]),int(params[1]))
         self.GetInteractionService().ProcessClick(windowPoint)
-
+    #x,y
+    def execute_doubleclick(self,params,osHandlerModel,channel,user):
+        windowPoint = self.GetWindowManager().GetWindowPointToScreen(osHandlerModel, int(params[0]),int(params[1]))
+        self.GetInteractionService().ProcessDoubleClick(windowPoint)
     #text
     def execute_type(self,params,osHandlerModel,channel,user):
         self.GetInteractionService().ProcessType(params)

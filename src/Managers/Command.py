@@ -1,3 +1,5 @@
+import time
+
 class Command(object):
     def __init__(self,container):
         self._container = container
@@ -68,6 +70,8 @@ class Command(object):
             model = self._GetOsService().GetWindowByName(name, 1)
             if model:
                 self._GetWindowManager().BringForward(model)
+                time.sleep(.05)
+                self._GetWindowManager().Maximize(model)
                 return ("file", self._GetScreenHelper().realSaveScreen("raw", self._GetWindowManager().GetLeftTopWidthHeight(model)))
             else:
                 return ("text","Could Not Find Window: " + name)

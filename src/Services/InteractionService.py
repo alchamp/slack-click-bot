@@ -14,6 +14,11 @@ class InteractionService(object):
         self._container.Logger().debug("clicking " + str(params))
         pyautogui.click(int(params[0]),int(params[1]))
 
+    #x,y
+    def ProcessDoubleClick(self,params):
+        self._container.Logger().debug("double clicking " + str(params))
+        pyautogui.doubleClick(int(params[0]),int(params[1]))
+
     #text
     def ProcessType(self,params):
         self._container.Logger().debug("typing " + str(params))
