@@ -76,6 +76,12 @@ class WorkflowExecutor(object):
                 finalParams.append(inputs[1])          
             elif param == 'd_input2':
                 finalParams.append(inputs[2])                                   
+            elif param == 'd_input3':
+                finalParams.append(inputs[3]) 
+            elif param == 'd_input4':
+                finalParams.append(inputs[4]) 
+            elif param == 'd_input5':
+                finalParams.append(inputs[5])                                 
             else:
                 finalParams.append(str(param))
         return finalParams
