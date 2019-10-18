@@ -70,19 +70,13 @@ class WorkflowExecutor(object):
     def ParamsSubInputs(self,params,inputs):
         finalParams = []
         for param in params:
-            if param == 'd_input0':
-                finalParams.append(inputs[0])
-            elif param == 'd_input1':
-                finalParams.append(inputs[1])          
-            elif param == 'd_input2':
-                finalParams.append(inputs[2])                                   
-            elif param == 'd_input3':
-                finalParams.append(inputs[3]) 
-            elif param == 'd_input4':
-                finalParams.append(inputs[4]) 
-            elif param == 'd_input5':
-                finalParams.append(inputs[5])                                 
-            else:
+            dinputSet = False
+            for i in range(20):
+                if param == ('d_input'+str(i)):
+                    finalParams.append(inputs[i])
+                    dinputSet = True
+                    break                             
+            if(dinputSet == False):
                 finalParams.append(str(param))
         return finalParams
 
