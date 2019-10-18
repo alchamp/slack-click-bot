@@ -13,6 +13,7 @@ class Configuration(object):
         self.bot_name = configurationModel.GetName()
         self.bot_alias = configurationModel.GetAlias()
         self.bot_logging_channel = configurationModel.GetLoggingChannel()
+        self.bot_should_max_windows = configurationModel.ShouldMaximizeWindows()
 
     def GetBotToken(self):
         return self.bot_token 
@@ -28,3 +29,6 @@ class Configuration(object):
 
     def GetBotLoggingChannelName(self):
         return self.bot_logging_channel
+
+    def ShouldMaximizeWindows(self):
+        return self.bot_should_max_windows

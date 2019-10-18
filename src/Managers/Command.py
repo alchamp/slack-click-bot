@@ -24,6 +24,8 @@ class Command(object):
     
     def GetWorkflowExecutor(self):
         return self._container.GetProvider("WorkflowExecutor")
+    def GetConfiguration(self):
+        return self._container.GetProvider("Configuration")
 
     def ProcessCommand(self, user,channel, command):
          return  self.process( user,channel, command)
@@ -70,8 +72,10 @@ class Command(object):
             model = self._GetOsService().GetWindowByName(name, 1)
             if model:
                 self._GetWindowManager().BringForward(model)
-                time.sleep(.05)
-                self._GetWindowManager().Maximize(model)
+                if self.GetConfiguration().ShouldMaximizeWindows():
+                    time.sleep(.5)
+                    self._GetWindowManager().Maximize(model)
+                    
                 return ("file", self._GetScreenHelper().realSaveScreen("raw", self._GetWindowManager().GetLeftTopWidthHeight(model)))
             else:
                 return ("text","Could Not Find Window: " + name)

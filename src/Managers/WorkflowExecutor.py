@@ -26,10 +26,10 @@ class WorkflowExecutor(object):
         return self._container.GetProvider("OsService")     
     def GetBotService(self):
         return self._container.GetProvider("BotService")
-
+    def GetConfiguration(self):
+        return self._container.GetProvider("Configuration")
+        
     def Execute(self,slackCommandName,inputs,channel,user):
-        #remove after testing
-        time.sleep(1)
         workflows = self.GetWorkFlowCommandManager().GetCommandWorkFlows(slackCommandName)
         for workflow in workflows:
             self.ExecuteWorkFlow(workflow,inputs,channel,user) 
@@ -51,8 +51,9 @@ class WorkflowExecutor(object):
         #bring window forward
         if osHandlerModel:
             self.GetWindowManager().BringForward(osHandlerModel)
-            time.sleep(.5)
-            self.GetWindowManager().Maximize(osHandlerModel)
+            if self.GetConfiguration().ShouldMaximizeWindows():
+                time.sleep(.5)
+                self.GetWindowManager().Maximize(osHandlerModel)
 
             #execute instruction
             for commandModel in workflowModel.commands:
