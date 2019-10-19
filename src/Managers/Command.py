@@ -88,17 +88,21 @@ class Command(object):
     def testerror(self,params):
         raise Exception("This is an exception test")
     
-    def testonscreenkeyboard(self):
+    def testonscreenkeyboard(self,params):
         success = self._GetOsService().StartProgram("C:\\Windows\\System32\\notepad.exe")
+        delay = 0.0
+        if(len(params) > 0):
+            delay = float(params[0])
+        time.sleep(1)
         if success:
             model = self.GetWorkflowExecutor().GetWindowModel("notepad",["notepad++","chrome"])
             if model:
                 self._GetWindowManager().BringForward(model)
                 self._GetWindowManager().Maximize(model)
                 time.sleep(1)
-                self.GetOnScreenKeyboardManager().ClickAvailableKeys("0123456789")        
-                self.GetOnScreenKeyboardManager().ClickAvailableKeys(string.ascii_lowercase[:])        
-                self.GetOnScreenKeyboardManager().ClickAvailableKeys(["ctrl","a","ctrl","c","ctrl","v","enter","tab","ctrl","v","enter"])
+                self.GetOnScreenKeyboardManager().ClickAvailableKeysWithDelay("0123456789",delay)        
+                self.GetOnScreenKeyboardManager().ClickAvailableKeysWithDelay(string.ascii_lowercase[:],delay)        
+                self.GetOnScreenKeyboardManager().ClickAvailableKeysWithDelay(["ctrl","a","ctrl","c","ctrl","v","enter","tab","ctrl","v","enter"],delay)
                 screenshot = self._GetScreenHelper().realSaveScreen("raw", self._GetWindowManager().GetLeftTopWidthHeight(model))
                 return ("file", screenshot)
             else:

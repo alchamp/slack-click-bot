@@ -104,11 +104,13 @@ class OnScreenKeyboardManager(object):
             if self.KeyAvailable(key) == False:
                 return False
         return True
-          
     def ClickAvailableKeys(self,keys):
+        self.ClickAvailableKeysWithDelay(keys,0.3)     
+
+    def ClickAvailableKeysWithDelay(self,keys,delayFloat):
         self.Show()
         for key in keys:  
-            time.sleep(.3)          
+            time.sleep(delayFloat)          
             self._ClickAvailableKey(key)             
         self.Hide()
 
