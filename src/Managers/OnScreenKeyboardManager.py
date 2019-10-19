@@ -40,7 +40,7 @@ class OnScreenKeyboardManager(object):
             self._KillProgram()
 
         if((show and ps == None) or (not show and ps <> None) ):
-            time.sleep(.5)
+            time.sleep(1)
             self.GetOsService().PopulateWindowsEnumChild(1)
             ps = self.GetOsService().GetWindowByName(self._windowName ,1)
         self._currentHandle = ps
