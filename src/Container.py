@@ -15,6 +15,7 @@ import Services.OsService as OsService
 import Services.BotService as BotService
 import Services.WorkFlowService as WorkFlowService
 import Services.SlackCommandService as SlackCommandService
+import Services.KeyConfigService as KeyConfigService
 
 import Managers.Command as Command
 
@@ -36,7 +37,8 @@ class Container(object):
             "WorkFlowCommandManager" : WorkFlowCommandManager.WorkFlowCommandManager(self),
             "WorkflowExecutor" : WorkflowExecutor.WorkflowExecutor(self),
             "LogManager" : LogManager.LogManager(self),
-            "OnScreenKeyboardManager" : OnScreenKeyboardManager.OnScreenKeyboardManager(self)
+            "OnScreenKeyboardManager" : OnScreenKeyboardManager.OnScreenKeyboardManager(self),
+            "KeyConfigService": KeyConfigService.KeyConfigService(self),
         }
     
     def GetProvider(self,name):

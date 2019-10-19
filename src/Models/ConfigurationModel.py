@@ -8,6 +8,8 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.bot_logging_channel = None
         self.maximize_windows = False
         self.keys_folder_path = None
+        self.keys_config = None
+        self.keys_mode = None
 
     def ParseDict(self,obj):
         self.bot_name = obj["bot_name"]
@@ -15,6 +17,8 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.bot_alias = obj["bot_alias"] if "bot_alias" in obj  else "ss"
         self.bot_logging_channel = obj["bot_logging_channel"] if "bot_logging_channel" in obj  else None
         self.keys_folder_path = obj["keys_folder_path"] if "keys_folder_path" in obj  else None
+        self.keys_config = obj["keys_config"] if "keys_config" in obj  else None
+        self.keys_mode = obj["keys_mode"] if "keys_mode" in obj  else None
         maximizeWindowsIn = obj["maximize_windows"] if "maximize_windows" in obj  else False
         if(isinstance(maximizeWindowsIn, basestring)):
             maximizeWindowsIn.decode(encoding='UTF-8',errors='ignore').lower()
@@ -46,6 +50,13 @@ class ConfigurationModel(JsonModel.JsonModel):
     
     def GetKeysFolderPath(self):
         return self.keys_folder_path
+    
+    def GetKeysConfig(self):
+        return self.keys_config
+
+    def GetKeysMode(self):
+        return self.keys_mode
+        
 # import json
 # jsonString = '{"bot_token": "bottoken", "bot_logging_channel": "botlogging", "bot_alias": "ss", "maximize_windows": true, "bot_name": "botname"}'
 # x = ConfigurationModel.Parse(jsonString)

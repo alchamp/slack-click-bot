@@ -61,6 +61,21 @@ class WindowManager(object):
         if(fromLeft >= 0 and fromTop >= 0 and right > fromLeft and bottom > fromTop):
             return (left + fromLeft, top + fromTop)
         return None
+        
+    def GetWindowPointToScreenInterpolated(self,  osHandlerModel, fromLeft,fromTop, originalWidth,originalHeight):
+        (wf,hf) = self.GetInterpolatedRatio( osHandlerModel, originalWidth,originalHeight)
+        return self.GetWindowPointToScreenInterpolatedWithFactors(osHandlerModel, fromLeft,fromTop,wf,hf)
+   
+    def GetWindowPointToScreenInterpolatedWithFactors(self,  osHandlerModel, fromLeft,fromTop, widthFactor,heightFactor):
+        fromLeftInter = int(round(fromLeft * widthFactor))
+        fromTopInter = int(round(fromTop * heightFactor))
+        return self.GetWindowPointToScreen(osHandlerModel,fromLeftInter,fromTopInter)
+
+    def GetInterpolatedRatio(self,  osHandlerModel, originalWidth,originalHeight):
+        (width,height) = self.GetWidthHeight(osHandlerModel) 
+        wf = width/(originalWidth * 1.0)
+        hf = height/(originalHeight * 1.0)        
+        return (wf,hf)
 
     def GetArea(self,osHandlerModel):
         (left, top, right, bottom)  = get_actual_rect(osHandlerModel)

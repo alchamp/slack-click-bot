@@ -15,9 +15,12 @@ class Configuration(object):
         self.bot_logging_channel = configurationModel.GetLoggingChannel()
         self.bot_should_max_windows = configurationModel.ShouldMaximizeWindows()
         self.bot_keys_folder = configurationModel.GetKeysFolderPath()
+        self.bot_keys_config = configurationModel.GetKeysConfig()
+        self.bot_keys_mode = configurationModel.GetKeysMode()
         if self.bot_keys_folder == None:
             self.bot_keys_folder = os.path.join(os.getcwd(), "src\\Services\\keys")
-
+        if self.bot_keys_config == None:
+            self.bot_keys_config = os.path.join(os.getcwd(), "src\\Services\\keys\\keyboard.config")
 
     def GetBotToken(self):
         return self.bot_token 
@@ -39,3 +42,9 @@ class Configuration(object):
         
     def GetOnScreenKeyboardKeys(self):
         return self.bot_keys_folder
+
+    def GetOnScreenKeyboardConfig(self):
+        return self.bot_keys_config       
+
+    def GetOnScreenKeyboardMode(self):
+        return self.bot_keys_mode

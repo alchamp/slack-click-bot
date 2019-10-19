@@ -1,5 +1,5 @@
 import time
-
+import string
 class Command(object):
     def __init__(self,container):
         self._container = container
@@ -7,7 +7,8 @@ class Command(object):
             "help" : self.help,
             "windows" : self.windows,
             "raw" : self.raw,
-            "testerror": self.testerror
+            "testerror": self.testerror,
+            "testonscreenkeyboard": self.testonscreenkeyboard
         }
 
     def _GetScreenHelper(self):
@@ -26,6 +27,8 @@ class Command(object):
         return self._container.GetProvider("WorkflowExecutor")
     def GetConfiguration(self):
         return self._container.GetProvider("Configuration")
+    def GetOnScreenKeyboardManager(self):
+        return self._container.GetProvider("OnScreenKeyboardManager")
 
     def ProcessCommand(self, user,channel, command):
          return  self.process( user,channel, command)
@@ -84,3 +87,19 @@ class Command(object):
        
     def testerror(self,params):
         raise Exception("This is an exception test")
+    
+    def testonscreenkeyboard(self):
+        success = self._GetOsService().StartProgram("C:\\Windows\\System32\\notepad.exe")
+        if success:
+            model = self.GetWorkflowExecutor().GetWindowModel("notepad",["notepad++","chrome"])
+            if model:
+                self._GetWindowManager().BringForward(model)
+                self._GetWindowManager().Maximize(model)
+                time.sleep(1)
+                self.GetOnScreenKeyboardManager().ClickAvailableKeys("0123456789")        
+                self.GetOnScreenKeyboardManager().ClickAvailableKeys(string.ascii_lowercase[:])        
+                self.GetOnScreenKeyboardManager().ClickAvailableKeys(["ctrl","a","ctrl","c","ctrl","v","enter","tab","ctrl","v","enter"])
+                screenshot = self._GetScreenHelper().realSaveScreen("raw", self._GetWindowManager().GetLeftTopWidthHeight(model))
+                return ("file", screenshot)
+            else:
+                return ("text","Could Not Open Notepad: ")
