@@ -7,12 +7,14 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.bot_alias = None
         self.bot_logging_channel = None
         self.maximize_windows = False
+        self.keys_folder_path = None
 
     def ParseDict(self,obj):
         self.bot_name = obj["bot_name"]
         self.bot_token = obj["bot_token"]
         self.bot_alias = obj["bot_alias"] if "bot_alias" in obj  else "ss"
         self.bot_logging_channel = obj["bot_logging_channel"] if "bot_logging_channel" in obj  else None
+        self.keys_folder_path = obj["keys_folder_path"] if "keys_folder_path" in obj  else None
         maximizeWindowsIn = obj["maximize_windows"] if "maximize_windows" in obj  else False
         if(isinstance(maximizeWindowsIn, basestring)):
             maximizeWindowsIn.decode(encoding='UTF-8',errors='ignore').lower()
@@ -41,7 +43,9 @@ class ConfigurationModel(JsonModel.JsonModel):
     
     def ShouldMaximizeWindows(self):
         return self.maximize_windows
-
+    
+    def GetKeysFolderPath(self):
+        return self.keys_folder_path
 # import json
 # jsonString = '{"bot_token": "bottoken", "bot_logging_channel": "botlogging", "bot_alias": "ss", "maximize_windows": true, "bot_name": "botname"}'
 # x = ConfigurationModel.Parse(jsonString)

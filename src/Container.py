@@ -5,6 +5,8 @@ import Managers.BotManager as BotManager
 import Managers.WorkFlowCommandManager as WorkFlowCommandManager
 import Managers.WorkflowExecutor as WorkflowExecutor
 import Managers.LogManager as LogManager
+import Managers.OnScreenKeyboardManager as OnScreenKeyboardManager
+
 
 import Helpers.ScreenHelper as ScreenHelper
 
@@ -33,7 +35,8 @@ class Container(object):
             "WorkFlowService" : WorkFlowService.WorkFlowService(self),
             "WorkFlowCommandManager" : WorkFlowCommandManager.WorkFlowCommandManager(self),
             "WorkflowExecutor" : WorkflowExecutor.WorkflowExecutor(self),
-            "LogManager" : LogManager.LogManager(self)
+            "LogManager" : LogManager.LogManager(self),
+            "OnScreenKeyboardManager" : OnScreenKeyboardManager.OnScreenKeyboardManager(self)
         }
     
     def GetProvider(self,name):

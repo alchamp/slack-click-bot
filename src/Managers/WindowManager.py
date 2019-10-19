@@ -3,6 +3,7 @@ import time
 import ctypes
 import ctypes.wintypes
 #import win32com.client
+import pyautogui
 
 def get_actual_rect(osHandlerModel):
     try:
@@ -71,6 +72,8 @@ class WindowManager(object):
         (left,top) = self.GetScreenPositionTopLeft(osHandlerModel)
         (width,height) = self.GetWidthHeight(osHandlerModel)
         return (left,top,width,height)
-    
-        
 
+    # TODO clean me up. Find a better spot
+    def LocateOnWindow(self,osHandlerModel,filePath):
+        center =  pyautogui.center(pyautogui.locateOnScreen(filePath,region=self.GetLeftTopWidthHeight(osHandlerModel)))
+        return center
