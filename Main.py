@@ -7,6 +7,10 @@ def run():
     
     workFlowCommandManager = container.GetProvider("WorkFlowCommandManager")
     workFlowCommandManager.Initialize()
+    
+    OnScreenKeyboardManager = container.GetProvider("OnScreenKeyboardManager")
+    if OnScreenKeyboardManager.IsEnabled():
+        OnScreenKeyboardManager.Initialize()
 
     botManager.Login()
     botManager.Start()

@@ -7,7 +7,14 @@ class OnScreenKeyboardManager(object):
         self._availableKeys = {}
         self._windowName = "on-screen keyboard"
         self._currentHandle = None
+        self._isEnabled = True
 
+    def IsEnabled(self):
+        return self._isEnabled
+
+    def Initialize(self):
+        self.LoadKeys()
+        
     def GetConfiguration(self):
         return self._container.GetProvider("Configuration")
     def GetWindowManager(self):
@@ -22,16 +29,17 @@ class OnScreenKeyboardManager(object):
         ps = self.GetOsService().GetWindowByName(self._windowName ,1)
         if((show and ps == None) or (not show and ps <> None) ):
             self.GetInteractionService().ProcessHotkey(('ctrlleft','winleft','o'))
-            time.sleep(.1)
+            time.sleep(.5)
             self.GetOsService().PopulateWindowsEnumChild(1)
-            time.sleep(.1)
             ps = self.GetOsService().GetWindowByName(self._windowName ,1)
         self._currentHandle = ps
 
     def Show(self):
+        self._container.Logger().info("Show On Screen Keyboard ")
         self._ShowHide(True)
         
     def Hide(self):
+        self._container.Logger().info("Hide On Screen Keyboard ")
         self._ShowHide(False)
 
     def KeyAvailable(self,key):
@@ -47,6 +55,7 @@ class OnScreenKeyboardManager(object):
         self.Show()
         for key in keys:            
             self._ClickAvailableKey(key)
+            time.sleep(.1)
         self.Hide()
 
     def _ClickAvailableKey(self,key):
@@ -61,15 +70,22 @@ class OnScreenKeyboardManager(object):
     def ClearAllKeys(self):
         self._availableKeys = {}
 
-    def LoadKeys(self,osx,wm):
+    def GetAllKeys(self):
+        return self._availableKeys.keys() 
+
+    def LoadKeys(self):
         self.Show()
+        self._container.Logger().info("Loading Keys For On Screen Keyboard ")
         keysFolder = self.GetConfiguration().GetOnScreenKeyboardKeys()
         for filename in os.listdir( keysFolder ):
             if filename.endswith(".png"): 
                 keyKey = filename.split(".")[0]
-                center = self.GetWindowManager().LocateOnWindow(self._currentHandle,os.path.join(keysFolder, filename))
+                filePath = os.path.join(keysFolder, filename)
+                self._container.Logger().info("Attempting to load " + str(filePath))
+                center = self.GetWindowManager().LocateOnWindow(self._currentHandle,filePath)
                 model = OnScreenKeyboardModel.OnScreenKeyboardModel(keyKey,center)
                 self.AddKey(model)
+                self._container.Logger().info("Found Key " + model.ToString())
             else:
                 continue
         self.Hide()

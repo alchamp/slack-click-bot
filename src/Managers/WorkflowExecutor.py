@@ -10,6 +10,7 @@ class WorkflowExecutor(object):
             "type" : self.execute_type,
             "press" : self.execute_press,
             "hotkey" : self.execute_hotkey,
+            "hotkeyonscreen" : self.execute_hotkey_on_screen,
             "screenshot":self.execute_screenshot,
             "delay":self.execute_delay
         }
@@ -28,7 +29,9 @@ class WorkflowExecutor(object):
         return self._container.GetProvider("BotService")
     def GetConfiguration(self):
         return self._container.GetProvider("Configuration")
-        
+    def GetOnScreenKeyboardManager(self):
+        return self._container.GetProvider("OnScreenKeyboardManager")
+
     def Execute(self,slackCommandName,inputs,channel,user):
         workflows = self.GetWorkFlowCommandManager().GetCommandWorkFlows(slackCommandName)
         for workflow in workflows:
@@ -107,8 +110,22 @@ class WorkflowExecutor(object):
     #hotkey[]
     def execute_hotkey(self,params,osHandlerModel,channel,user):
         self.GetInteractionService().ProcessHotkey(params)
-    
+
     #hotkey[]
+    def execute_hotkey_on_screen(self,params,osHandlerModel,channel,user):
+        if( self.GetOnScreenKeyboardManager().IsEnabled()):
+            if(self.GetOnScreenKeyboardManager().HasAllKeyAvailable(params)):
+                self.GetOnScreenKeyboardManager().ClickAvailableKeys(params)
+            else:
+                self._container.Logger().error("On Screen Keyboard Feature Does Not Support All Keys" + str(params))
+                raise Exception("On Screen Keyboard Feature Does Not Support All Keys" + str(params))  
+        else:
+            self._container.Logger().error("On Screen Keyboard Feature Not  Available")
+            raise Exception("On Screen Keyboard Feature Not  Available")  
+
+        self.GetOnScreenKeyboardManager().ProcessHotkey(params)        
+
+    #screenshot[]
     def execute_screenshot(self,params,osHandlerModel,channel,user):
         screenshot = self.GetScreenHelper().realSaveScreen("image" +str(random.randint(0,1000)), self.GetWindowManager().GetLeftTopWidthHeight(osHandlerModel))
         self.GetBotService().UploadFile(channel, '',screenshot)
