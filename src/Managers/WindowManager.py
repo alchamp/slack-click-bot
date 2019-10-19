@@ -75,5 +75,6 @@ class WindowManager(object):
 
     # TODO clean me up. Find a better spot
     def LocateOnWindow(self,osHandlerModel,filePath):
-        center =  pyautogui.center(pyautogui.locateOnScreen(filePath,region=self.GetLeftTopWidthHeight(osHandlerModel)))
+        center =  pyautogui.center(pyautogui.locateOnScreen(filePath,grayscale=True,region=self.GetLeftTopWidthHeight(osHandlerModel)))
+       
         return center
