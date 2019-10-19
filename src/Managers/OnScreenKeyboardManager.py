@@ -1,11 +1,13 @@
 import os
 import src.Models.OnScreenKeyboardModel as OnScreenKeyboardModel
 import time
+import pyautogui
 class OnScreenKeyboardManager(object):
     def __init__(self,container):
         self._container = container
         self._availableKeys = {}
         self._windowName = "on-screen keyboard"
+        self._program_path = "C:\\Windows\\System32\\osk.exe"
         self._currentHandle = None
         self._isEnabled = True
 
@@ -23,16 +25,31 @@ class OnScreenKeyboardManager(object):
         return self._container.GetProvider("OsService")     
     def GetInteractionService(self):
         return self._container.GetProvider("InteractionService")
-             
+
     def _ShowHide(self,show):
         self.GetOsService().PopulateWindowsEnumChild(1)
         ps = self.GetOsService().GetWindowByName(self._windowName ,1)
+        # if((show and ps == None)  ):
+        #     self.GetInteractionService().ProcessHotkey(('ctrlleft','winleft','o')) #they are the same
+        # elif((not show and ps <> None) ):
+        #     self.GetInteractionService().ProcessHotkey(('ctrlleft','winleft','o'))
+
+        if((show and ps == None)  ):
+            self._LaunchProgram()
+        elif((not show and ps <> None) ):
+            self._KillProgram()
+
         if((show and ps == None) or (not show and ps <> None) ):
-            self.GetInteractionService().ProcessHotkey(('ctrlleft','winleft','o'))
             time.sleep(.5)
             self.GetOsService().PopulateWindowsEnumChild(1)
             ps = self.GetOsService().GetWindowByName(self._windowName ,1)
         self._currentHandle = ps
+
+    def _LaunchProgram(self):
+        self.GetOsService().StartProgram(self._program_path)
+
+    def _KillProgram(self):
+         os.system("tskill osk")
 
     def Show(self):
         self._container.Logger().info("Show On Screen Keyboard ")
@@ -41,6 +58,7 @@ class OnScreenKeyboardManager(object):
     def Hide(self):
         self._container.Logger().info("Hide On Screen Keyboard ")
         self._ShowHide(False)
+        
 
     def KeyAvailable(self,key):
         return key in self._availableKeys
