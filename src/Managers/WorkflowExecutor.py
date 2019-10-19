@@ -121,9 +121,7 @@ class WorkflowExecutor(object):
                 raise Exception("On Screen Keyboard Feature Does Not Support All Keys" + str(params))  
         else:
             self._container.Logger().error("On Screen Keyboard Feature Not  Available")
-            raise Exception("On Screen Keyboard Feature Not  Available")  
-
-        self.GetOnScreenKeyboardManager().ProcessHotkey(params)        
+            raise Exception("On Screen Keyboard Feature Not  Available")
 
     #screenshot[]
     def execute_screenshot(self,params,osHandlerModel,channel,user):
