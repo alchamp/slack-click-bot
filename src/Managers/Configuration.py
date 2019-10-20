@@ -17,6 +17,7 @@ class Configuration(object):
         self.bot_keys_folder = configurationModel.GetKeysFolderPath()
         self.bot_keys_config = configurationModel.GetKeysConfig()
         self.bot_keys_mode = configurationModel.GetKeysMode()
+        self.bot_should_interpolate_clicks = configurationModel.GetInterpolateClicks()
         if self.bot_keys_folder == None:
             self.bot_keys_folder = os.path.join(os.getcwd(), "src\\Services\\keys")
         if self.bot_keys_config == None:
@@ -36,9 +37,6 @@ class Configuration(object):
 
     def GetBotLoggingChannelName(self):
         return self.bot_logging_channel
-
-    def ShouldMaximizeWindows(self):
-        return self.bot_should_max_windows
         
     def GetOnScreenKeyboardKeys(self):
         return self.bot_keys_folder
@@ -48,3 +46,9 @@ class Configuration(object):
 
     def GetOnScreenKeyboardMode(self):
         return self.bot_keys_mode
+
+    def ShouldMaximizeWindows(self):
+        return self.bot_should_max_windows
+
+    def ShouldInterpolateClicks(self):
+        return self.bot_should_interpolate_clicks

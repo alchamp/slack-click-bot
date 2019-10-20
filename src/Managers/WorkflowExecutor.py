@@ -105,7 +105,7 @@ class WorkflowExecutor(object):
         return (widthFactor,heightFactor)
 
     def _GetPoint(self, params,osHandlerModel,workflowModel):
-        if self.GetConfiguration().GetInterpolateClicks() == False or workflowModel == None:
+        if self.GetConfiguration().ShouldInterpolateClicks() == False or workflowModel == None:
             return self.GetWindowManager().GetWindowPointToScreen(osHandlerModel, int(params[0]),int(params[1]))
         else:
             (widthFactor,heightFactor) = self._GetWidthHeightFactor(osHandlerModel,workflowModel)
