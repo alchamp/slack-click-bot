@@ -60,7 +60,7 @@ class WorkflowExecutor(object):
 
             #execute instruction
             for commandModel in workflowModel.commands:
-                self.ExecuteInstruction(commandModel,inputs,channel,user,osHandlerModel)
+                self.ExecuteInstruction(commandModel,inputs,channel,user,osHandlerModel,workflowModel)
         else:
             messageOut = " Could Not Find `" + str(workflowModel.windowname) + "` Skipping Workflow `" +  str(workflowModel.name) + "`"
             self.GetBotService().PostTextMessage(user,channel, messageOut) 
@@ -83,36 +83,57 @@ class WorkflowExecutor(object):
                 finalParams.append(str(param))
         return finalParams
 
-    def ExecuteInstruction(self, commandModel,inputs,channel,user,osHandlerModel):
+    def ExecuteInstruction(self, commandModel,inputs,channel,user,osHandlerModel,workflowModel = None):
         if commandModel.command in self.instructions:
             finalParams = self.ParamsSubInputs(commandModel.params,inputs)
-            self.instructions[commandModel.command](finalParams,osHandlerModel,channel,user)
+            self.instructions[commandModel.command](finalParams,osHandlerModel,channel,user,workflowModel)
         else:
             self._container.Logger().error("invalid instruction " + commandModel.command)
             raise Exception("ERROR, Invalid Instructions")  
  
+    def _GetWidthHeightFactor(self,osHandlerModel,workflowModel):
+        widthFactor = 1.0
+        heightFactor = 1.0   
+        if workflowModel <> None:
+            origW = workflowModel.originalwidth
+            origH = workflowModel.originalheight
+            if (origW <> None) and (origH <> None) and (origW > 0) and (origH > 0) :      
+                (wf, hf) = self.GetWindowManager().GetInterpolatedRatio(osHandlerModel,origW,origH)
+                widthFactor = wf
+                heightFactor = hf
+                self._container.Logger().info(" Workflow Exec: WidthFactor: " + str(widthFactor) + " heightFactor: " + str(heightFactor))
+        return (widthFactor,heightFactor)
+
+    def _GetPoint(self, params,osHandlerModel,workflowModel):
+        if self.GetConfiguration().GetInterpolateClicks() == False or workflowModel == None:
+            return self.GetWindowManager().GetWindowPointToScreen(osHandlerModel, int(params[0]),int(params[1]))
+        else:
+            (widthFactor,heightFactor) = self._GetWidthHeightFactor(osHandlerModel,workflowModel)
+            (x,y) = self.GetWindowManager().GetWindowPointToScreenInterpolatedWithFactors(osHandlerModel,int(params[0]),int(params[1]),widthFactor,heightFactor)
+            return(x,y)
+
     #x,y
-    def execute_click(self,params,osHandlerModel,channel,user):
-        windowPoint = self.GetWindowManager().GetWindowPointToScreen(osHandlerModel, int(params[0]),int(params[1]))
+    def execute_click(self,params,osHandlerModel,channel,user,workflowModel = None):
+        windowPoint = self._GetPoint(params,osHandlerModel, workflowModel)
         self.GetInteractionService().ProcessClick(windowPoint)
     #x,y
-    def execute_doubleclick(self,params,osHandlerModel,channel,user):
-        windowPoint = self.GetWindowManager().GetWindowPointToScreen(osHandlerModel, int(params[0]),int(params[1]))
+    def execute_doubleclick(self,params,osHandlerModel,channel,user,workflowModel = None):
+        windowPoint = self._GetPoint(params,osHandlerModel, workflowModel)
         self.GetInteractionService().ProcessDoubleClick(windowPoint)
     #text
-    def execute_type(self,params,osHandlerModel,channel,user):
+    def execute_type(self,params,osHandlerModel,channel,user,workflowModel = None):
         self.GetInteractionService().ProcessType(params)
 
     #text[]
-    def execute_press(self,params,osHandlerModel,channel,user):
+    def execute_press(self,params,osHandlerModel,channel,user,workflowModel = None):
         self.GetInteractionService().ProcessPress(params)
 
     #hotkey[]
-    def execute_hotkey(self,params,osHandlerModel,channel,user):
+    def execute_hotkey(self,params,osHandlerModel,channel,user,workflowModel = None):
         self.GetInteractionService().ProcessHotkey(params)
 
     #hotkey[]
-    def execute_on_screen_key(self,params,osHandlerModel,channel,user):
+    def execute_on_screen_key(self,params,osHandlerModel,channel,user,workflowModel = None):
         if( self.GetOnScreenKeyboardManager().IsEnabled()):
             if(self.GetOnScreenKeyboardManager().HasAllKeyAvailable(params)):
                 self.GetOnScreenKeyboardManager().ClickAvailableKeys(params)
@@ -124,11 +145,11 @@ class WorkflowExecutor(object):
             raise Exception("On Screen Keyboard Feature Not  Available")
 
     #screenshot[]
-    def execute_screenshot(self,params,osHandlerModel,channel,user):
+    def execute_screenshot(self,params,osHandlerModel,channel,user,workflowModel = None):
         screenshot = self.GetScreenHelper().realSaveScreen("image" +str(random.randint(0,1000)), self.GetWindowManager().GetLeftTopWidthHeight(osHandlerModel))
         self.GetBotService().UploadFile(channel, '',screenshot)
 
     #sleep,seconds
-    def execute_delay(self,params,osHandlerModel,channel,user):
+    def execute_delay(self,params,osHandlerModel,channel,user,workflowModel = None):
         self.GetOsService().Sleep(float(params[0]))
 
