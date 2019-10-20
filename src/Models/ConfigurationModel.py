@@ -10,6 +10,7 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.keys_folder_path = None
         self.keys_config = None
         self.keys_mode = None
+        self.interpolate_clicks = None
 
     def ParseDict(self,obj):
         self.bot_name = obj["bot_name"]
@@ -19,13 +20,8 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.keys_folder_path = obj["keys_folder_path"] if "keys_folder_path" in obj  else None
         self.keys_config = obj["keys_config"] if "keys_config" in obj  else None
         self.keys_mode = obj["keys_mode"] if "keys_mode" in obj  else None
-        maximizeWindowsIn = obj["maximize_windows"] if "maximize_windows" in obj  else False
-        if(isinstance(maximizeWindowsIn, basestring)):
-            maximizeWindowsIn.decode(encoding='UTF-8',errors='ignore').lower()
-            if(maximizeWindowsIn == "true" or maximizeWindowsIn == "y" or maximizeWindowsIn == "yes"):
-                self.maximize_windows = True
-        else:
-             self.maximize_windows = (maximizeWindowsIn == True)
+        self.maximize_windows = self.ParseBool(obj,"maximize_windows")
+        self.interpolate_clicks = self.ParseBool(obj,"interpolate_clicks")
 
     @classmethod
     def Parse(cls,obj):
@@ -56,7 +52,10 @@ class ConfigurationModel(JsonModel.JsonModel):
 
     def GetKeysMode(self):
         return self.keys_mode
-        
+
+    def GetInterpolateClicks(self):
+        return self.interpolate_clicks
+
 # import json
 # jsonString = '{"bot_token": "bottoken", "bot_logging_channel": "botlogging", "bot_alias": "ss", "maximize_windows": true, "bot_name": "botname"}'
 # x = ConfigurationModel.Parse(jsonString)

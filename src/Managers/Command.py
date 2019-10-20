@@ -98,7 +98,8 @@ class Command(object):
             model = self.GetWorkflowExecutor().GetWindowModel("notepad",["notepad++","chrome"])
             if model:
                 self._GetWindowManager().BringForward(model)
-                self._GetWindowManager().Maximize(model)
+                time.sleep(1)
+                self.GetOnScreenKeyboardManager().ClickAvailableKeysWithDelay(["win","up"],delay)
                 time.sleep(1)
                 self.GetOnScreenKeyboardManager().ClickAvailableKeysWithDelay("0123456789",delay)        
                 self.GetOnScreenKeyboardManager().ClickAvailableKeysWithDelay(string.ascii_lowercase[:],delay)        

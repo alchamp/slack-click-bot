@@ -10,7 +10,7 @@ class WorkflowExecutor(object):
             "type" : self.execute_type,
             "press" : self.execute_press,
             "hotkey" : self.execute_hotkey,
-            "hotkeyonscreen" : self.execute_hotkey_on_screen,
+            "onscreenkey" : self.execute_on_screen_key,
             "screenshot":self.execute_screenshot,
             "delay":self.execute_delay
         }
@@ -112,13 +112,13 @@ class WorkflowExecutor(object):
         self.GetInteractionService().ProcessHotkey(params)
 
     #hotkey[]
-    def execute_hotkey_on_screen(self,params,osHandlerModel,channel,user):
+    def execute_on_screen_key(self,params,osHandlerModel,channel,user):
         if( self.GetOnScreenKeyboardManager().IsEnabled()):
             if(self.GetOnScreenKeyboardManager().HasAllKeyAvailable(params)):
                 self.GetOnScreenKeyboardManager().ClickAvailableKeys(params)
             else:
-                self._container.Logger().error("On Screen Keyboard Feature Does Not Support All Keys" + str(params))
-                raise Exception("On Screen Keyboard Feature Does Not Support All Keys" + str(params))  
+                self._container.Logger().error("On Screen Keyboard Feature Does Not Support Some Keys" + str(params))
+                raise Exception("On Screen Keyboard Feature Does Not Support Some Keys" + str(params))  
         else:
             self._container.Logger().error("On Screen Keyboard Feature Not  Available")
             raise Exception("On Screen Keyboard Feature Not  Available")

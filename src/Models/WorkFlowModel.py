@@ -10,10 +10,16 @@ class WorkFlowModel(JsonModel.JsonModel):
         self.argcount = None
         self.program = None
         self.programdelay = None
+        self.originalheight = None
+        self.originalwidth = None
+        self.interpolateclicks = None
 
     def ParseDict(self,obj):
         self.windowname = obj["windowname"]
         self.argcount = obj["argcount"] if "argcount" in obj  else None
+        self.originalheight = obj["originalheight"] if "originalheight" in obj  else None
+        self.originalwidth = obj["originalwidth"] if "originalwidth" in obj  else None
+        
         self.excludednames = obj["excludednames"] if "excludednames" in obj  else []
         self.program = obj["program"] if "program" in obj and obj["program"] != "" else None
         self.programdelay = int(obj["programdelay"]) if "programdelay" in obj and obj["programdelay"] != ""  else None
