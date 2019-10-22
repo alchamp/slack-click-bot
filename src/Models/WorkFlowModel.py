@@ -41,7 +41,7 @@ class WorkFlowModel(JsonModel.JsonModel):
         for cmd in self.commands:
             cmdStrs.append(str(cmd))
         cmdsString = "\n\t".join(cmdStrs)
-        return "\n\tWorkflow Name:\t{0},\n\tDescription:\t{1}\n\tWindow:\t{2}\n\tExcluded Windows:\t{3}\n\tCommands:\t{4}".format(self.name, self.description,self.windowname,self.excludednames,cmdsString)
+        return "\n\tWorkflow Name:\t{0}\n\tDescription:\t{1}\n\tWindow:\t{2}\n\tExcluded Windows:\t{3}\n\tCommands:\t{4}".format(self.name, self.description,self.windowname,self.excludednames,cmdsString)
 
 # jsonString = '''
 # {

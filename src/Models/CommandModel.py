@@ -19,10 +19,6 @@ class CommandModel(JsonModel.JsonModel):
         return cmdObj
     
     def __str__(self):
-        paramStrs = []
-        for param in self.params:
-            paramStrs.append(str(param))
-        paramsString = ",".join(paramStrs)
         return "\n\t\tCommand:\t\t{0}\n\t\tDescription:\t{1}\n\t\tParameters:\t\t{2}".format(self.command, self.description,self.params)
 
 # jsonString = '{"command":"press", "params":["a","b","c"]}'
