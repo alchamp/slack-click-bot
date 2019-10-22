@@ -12,6 +12,7 @@ class WorkFlowModel(JsonModel.JsonModel):
         self.programdelay = None
         self.originalheight = None
         self.originalwidth = None
+        self.description = None
 
     def ParseDict(self,obj):
         self.windowname = obj["windowname"]
@@ -26,12 +27,21 @@ class WorkFlowModel(JsonModel.JsonModel):
         commands = obj["commands"] if "commands" in obj  else []
         for cmd in commands:
             self.commands.append(CommandModel.CommandModel.Parse(cmd))
+        
+        self.description = obj["description"] if "description" in obj  else None 
 
     @classmethod
     def Parse(cls,obj,name):
         cmdObj = cls(name)
         cmdObj.DoParse(obj)
         return cmdObj
+
+    def __str__(self):
+        cmdStrs = []
+        for cmd in self.commands:
+            cmdStrs.append(str(cmd))
+        cmdsString = "\n\t".join(cmdStrs)
+        return "\n\tWorkflow Name:\t{0},\n\tDescription:\t{1}\n\tWindow:\t{2}\n\tExcluded Windows:\t{3}\n\tCommands:\t{4}".format(self.name, self.description,self.windowname,self.excludednames,cmdsString)
 
 # jsonString = '''
 # {
@@ -45,4 +55,4 @@ class WorkFlowModel(JsonModel.JsonModel):
 # '''
 # x = WorkFlowModel.Parse(jsonString,"wf1")
 # print "Hello"
-# print json.dumps(x.__dict__)
+# print x

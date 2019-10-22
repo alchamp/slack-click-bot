@@ -49,15 +49,28 @@ class Command(object):
 
 
     def help(self,params):
-        response = "\r\nAvailable Commands:\r\n"
+        response = None
+        if(len(params) > 0 and self.GetWorkFlowCommandManager().HasCommand(params[0])):
+            slackCommandName = params[0]
+            response = "\r\nDetails For Slack Command " + slackCommandName
+            response+="\r\n```"
+            response += "\r\nCommand Details\r\n" + str(self.GetWorkFlowCommandManager().GetCommand(slackCommandName))
 
-        for command in self.commands:
-            response += command + "\r\b"
-        
-        response += "\r\nAvailable Workflow Commands:\r\n"
-        for workflowCommand in self.GetWorkFlowCommandManager().GetCommandNames():
-            response += workflowCommand + "\r\b"
-
+            if(len(params) > 1  and params[1] == "more" ):
+                response += "\r\nWorkflow Details:"   
+                workflows = self.GetWorkFlowCommandManager().GetCommandWorkFlows(slackCommandName)
+                for workflow in workflows:
+                    response += "\r\n" + str(workflow)
+            response+="\r\n"+"```"
+        else:
+            response = "\r\nAvailable Commands:\r\n"
+            for command in self.commands:
+                response += command + "\r\b"
+            
+            response += "\r\nAvailable Workflow Commands:\r\n"
+            for workflowCommand in self.GetWorkFlowCommandManager().GetCommandNames():
+                response += workflowCommand + "\r\b"
+ 
         return ("text",response)
 
     def windows(self,params):

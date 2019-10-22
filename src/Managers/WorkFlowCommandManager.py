@@ -16,6 +16,9 @@ class WorkFlowCommandManager(object):
     def HasCommand(self,name):
         return self.GetSlackCommandService().SlackCommandExistByName(name)
     
+    def GetCommand(self,name):
+        return self.GetSlackCommandService().GetSlackCommandByName(name)
+
     def GetCommandNames(self):
         return self.GetSlackCommandService().GetAllCommandsNames()
     
