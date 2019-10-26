@@ -47,7 +47,7 @@ class EventManager(object):
          and 'text' in event 
          and event.get('type') == 'message'
          and len(event['text']) > len(self.GetAlias()) + 1
-         and self.GetAlias() == event['text'][:len(self.GetAlias())])  
+         and self.GetAlias().lower() == (event['text'][:len(self.GetAlias())]).lower())  
 
          if(triggerName):
             return 1
@@ -61,5 +61,5 @@ class EventManager(object):
         if(eventType == 1):
             return event['text'].split(self.GetBotService().GetId())[1].strip().lower()
         elif(eventType == 2):
-            return event['text'].split(self.GetAlias())[1].strip().lower()
+            return event['text'].lower().split(self.GetAlias().lower())[1].strip()
         return None

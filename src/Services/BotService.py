@@ -1,5 +1,6 @@
 from slackclient import SlackClient
 import time 
+from datetime import datetime
 
 class BotService(object):
     def __init__(self,container):
@@ -18,7 +19,7 @@ class BotService(object):
             exit("Error could not find " + str(self._name))
 
     def IsReady(self):
-        return self._id <> None and  self._client.rtm_connect(with_team_state= False)
+        return self._id != None and  self._client.rtm_connect(with_team_state= False)
 
     def GetId(self):
         return self._id 
@@ -61,15 +62,22 @@ class BotService(object):
         return self._client.rtm_read()
 
     def UploadFile(self, channel,filename, fileLocation):
-        self._client.api_call('files.upload', channels=channel, filename=filename, file=open(fileLocation, 'rb'))
-
+        startTime1 = datetime.now()
+        startTime = datetime.now()
+        f = open(fileLocation, 'rb')
+        self._container.Logger().debug("Slack File Upload File Open: " + str(datetime.now() - startTime))
+        startTime = datetime.now()
+        self._client.api_call('files.upload', channels=channel, filename=filename, file=f)
+        self._container.Logger().debug("Slack File Upload: " + str(datetime.now() - startTime))
+        self._container.Logger().debug("Slack File Upload Total Time: " + str(datetime.now() - startTime1))
+     
     def UploadSnippet(self,channel,content):
         self._client.api_call('files.upload', channels=channel, content=content)
 
     def PostTextMessage(self,userToAddress, channel, message):
         finalUserName = None
-        if(userToAddress <> None and len(userToAddress) > 1 and userToAddress[:1] <> "@"):
+        if(userToAddress != None and len(userToAddress) > 1 and userToAddress[:1] != "@"):
             userToAddress = "<@" + userToAddress + ">: "
-        finalUserName = userToAddress if userToAddress <> None else ""
+        finalUserName = userToAddress if userToAddress != None else ""
         finalResponse = finalUserName + message
         self._client.api_call("chat.postMessage", channel=channel,text=finalResponse,as_user = True)

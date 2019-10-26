@@ -1,14 +1,19 @@
 import time
+import threading
 
-class BotManager(object):
+class BotManager(threading.Thread):
     def __init__(self,container):
         self._container = container
-        
+        self._running = False
+        threading.Thread.__init__(self)
+
+
     def GetBotService(self):
         return self._container.GetProvider("BotService")
-
     def GetConfigManager(self):
         return self._container.GetProvider("Configuration")
+    def GetSlackImageManager(self):
+        return self._container.GetProvider("SlackImageManager")
 
     def GetProcessEventCallBack(self):
         return self._container.GetProvider("EventManager").GetProcessEventCallBack()
@@ -23,13 +28,24 @@ class BotManager(object):
 
     def IsReady(self):
         return self.GetBotService().IsReady()
-
+    
     def Start(self):
+        if self._running == False:
+            self._running = True
+            return self.start()
+
+    def Stop(self):
+        self._running = False
+
+    def IsRunning(self):
+        return self._running
+
+    def run(self):
         if self.IsReady():
             callback = self.GetProcessEventCallBack()
             self._container.Logger().info("Starting")
             self._container.Logger().info("Waiting for commands")
-            while True:
+            while self._running and True:
                 try:
                     events = self.GetBotService().ReadEvents()
                     if events and len(events) > 0:

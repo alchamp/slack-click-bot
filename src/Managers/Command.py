@@ -1,4 +1,5 @@
 import time
+import datetime
 import string
 class Command(object):
     def __init__(self,container):
@@ -8,7 +9,9 @@ class Command(object):
             "windows" : self.windows,
             "raw" : self.raw,
             "testerror": self.testerror,
-            "testonscreenkeyboard": self.testonscreenkeyboard
+            "testonscreenkeyboard": self.testonscreenkeyboard,
+            "stopbot": self.stopbot
+ 
         }
 
     def _GetScreenHelper(self):
@@ -29,19 +32,25 @@ class Command(object):
         return self._container.GetProvider("Configuration")
     def GetOnScreenKeyboardManager(self):
         return self._container.GetProvider("OnScreenKeyboardManager")
+    def GetSlackImageManager(self):
+        return self._container.GetProvider("SlackImageManager")
+    def GetBotManager(self):
+        return self._container.GetProvider("BotManager")
 
     def ProcessCommand(self, user,channel, command):
          return  self.process( user,channel, command)
 
     def process(self, user, channel,command):
+        startTime = datetime.datetime.now()
         responseUser = user
         commandTrigger = command.split(' ')[0]
         commandParams = command.split(' ')[1:]
         if commandTrigger in self.commands:
             response = self.commands[commandTrigger](commandParams)
         elif self.GetWorkFlowCommandManager().HasCommand(commandTrigger):
-            self.GetWorkflowExecutor().Execute(commandTrigger,commandParams,channel,user)
-            response = ("text","Done Proccessing Workflow command")
+            workflowId = self.GetWorkflowExecutor().Execute(commandTrigger,commandParams,channel,user)
+            elsapsedTime = datetime.datetime.now() - startTime
+            response = ("text","Done Proccessing Command #" + str(workflowId) + " Execution Time: " + str(elsapsedTime))
         else:
             response = ("text","Unknown command")
         
@@ -100,7 +109,12 @@ class Command(object):
        
     def testerror(self,params):
         raise Exception("This is an exception test")
-    
+
+    def stopbot(self,params):    
+        self.GetSlackImageManager().Stop()
+        self.GetBotManager().Stop()
+        return ("text","Good Bye")
+
     def testonscreenkeyboard(self,params):
         success = self._GetOsService().StartProgram("C:\\Windows\\System32\\notepad.exe")
         delay = 0.0

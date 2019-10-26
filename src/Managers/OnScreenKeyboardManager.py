@@ -75,7 +75,7 @@ class OnScreenKeyboardManager(object):
             self._KillProgram()
 
         if((show and ps == None) or (not show and ps <> None) ):
-            time.sleep(1)
+            time.sleep(.4)
             self.GetOsService().PopulateWindowsEnumChild(1)
             ps = self.GetOsService().GetWindowByName(self._windowName ,1)
         self._currentHandle = ps
@@ -105,7 +105,7 @@ class OnScreenKeyboardManager(object):
                 return False
         return True
     def ClickAvailableKeys(self,keys):
-        self.ClickAvailableKeysWithDelay(keys,0.3)     
+        self.ClickAvailableKeysWithDelay(keys,0.1)     
 
     def ClickAvailableKeysWithDelay(self,keys,delayFloat):
         self.Show()

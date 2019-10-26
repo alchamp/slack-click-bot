@@ -18,6 +18,8 @@ class Configuration(object):
         self.bot_keys_config = configurationModel.GetKeysConfig()
         self.bot_keys_mode = configurationModel.GetKeysMode()
         self.bot_should_interpolate_clicks = configurationModel.GetInterpolateClicks()
+        self.bot_uses_mss  = configurationModel.GetUseMSS()
+        self.bot_uses_image_thread  = configurationModel.GetUseImageThread()  
         if self.bot_keys_folder == None:
             self.bot_keys_folder = os.path.join(os.getcwd(), "src\\Services\\keys")
         if self.bot_keys_config == None:
@@ -52,3 +54,9 @@ class Configuration(object):
 
     def ShouldInterpolateClicks(self):
         return self.bot_should_interpolate_clicks
+        
+    def UseMSS(self):
+        return self.bot_uses_mss
+
+    def UseImageThread(self):
+        return self.bot_uses_image_thread

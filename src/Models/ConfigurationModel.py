@@ -11,7 +11,9 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.keys_config = None
         self.keys_mode = None
         self.interpolate_clicks = None
-
+        self.use_mss = None
+        self.use_image_thread = None
+        
     def ParseDict(self,obj):
         self.bot_name = obj["bot_name"]
         self.bot_token = obj["bot_token"]
@@ -22,6 +24,8 @@ class ConfigurationModel(JsonModel.JsonModel):
         self.keys_mode = obj["keys_mode"] if "keys_mode" in obj  else None
         self.maximize_windows = self.ParseBool(obj,"maximize_windows")
         self.interpolate_clicks = self.ParseBool(obj,"interpolate_clicks")
+        self.use_mss = self.ParseBool(obj,"use_mss")
+        self.use_image_thread = self.ParseBool(obj,"use_image_thread")
 
     @classmethod
     def Parse(cls,obj):
@@ -56,6 +60,11 @@ class ConfigurationModel(JsonModel.JsonModel):
     def GetInterpolateClicks(self):
         return self.interpolate_clicks
 
+    def GetUseMSS(self):
+        return self.use_mss
+
+    def GetUseImageThread(self):
+        return self.use_image_thread
 # import json
 # jsonString = '{"bot_token": "bottoken", "bot_logging_channel": "botlogging", "bot_alias": "ss", "maximize_windows": true, "bot_name": "botname"}'
 # x = ConfigurationModel.Parse(jsonString)

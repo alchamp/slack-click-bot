@@ -8,9 +8,11 @@ class SlackLogHandler(StreamHandler):
 
     def GetBotService(self):
         return self._container.GetProvider("BotService")
-    
+    def GetBotManager(self):
+        return self._container.GetProvider("BotManager")
+
     def emit(self, record):
-        if self.GetBotService().IsReady() and self.GetBotService().GetLoggingChannelId() <> None:
+        if self.GetBotManager().IsRunning() and self.GetBotService().IsReady() and self.GetBotService().GetLoggingChannelId() <> None:
             msg = self.format(record)
             self.GetBotService().PostTextMessage(None,self.GetBotService().GetLoggingChannelId(),msg)
 

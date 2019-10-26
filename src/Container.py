@@ -6,7 +6,7 @@ import Managers.WorkFlowCommandManager as WorkFlowCommandManager
 import Managers.WorkflowExecutor as WorkflowExecutor
 import Managers.LogManager as LogManager
 import Managers.OnScreenKeyboardManager as OnScreenKeyboardManager
-
+import Managers.SlackImageManager as SlackImageManager
 
 import Helpers.ScreenHelper as ScreenHelper
 
@@ -39,6 +39,7 @@ class Container(object):
             "LogManager" : LogManager.LogManager(self),
             "OnScreenKeyboardManager" : OnScreenKeyboardManager.OnScreenKeyboardManager(self),
             "KeyConfigService": KeyConfigService.KeyConfigService(self),
+            "SlackImageManager": SlackImageManager.SlackImageManager(self)         
         }
     
     def GetProvider(self,name):

@@ -2,6 +2,8 @@ import pyautogui
 import os 
 from datetime import datetime
 import time
+import mss
+import mss.tools
 
 #remove after testing
 #pyautogui.PAUSE = 1.5
@@ -21,7 +23,8 @@ class ScreenHelper(object):
     
     def _GetInteractionService(self):
         return self._container.GetProvider("InteractionService")
-
+    def GetConfigManager(self):
+        return self._container.GetProvider("Configuration")
     def _GetWorkflow(self):
         return self._container.GetProvider("Configuration").instructions
 
@@ -50,18 +53,47 @@ class ScreenHelper(object):
         path = os.path.join(self.root_dir, prefix + '-' + timeStamp + '.png')
         pic.save(path)
         return path
-
     def realSaveScreen(self,prefix,regionIn = None):
+        ret = None
+        startTime = datetime.now()
+        if(self.GetConfigManager().UseMSS()):            
+            ret = self.realSaveScreenMSS(prefix,regionIn)
+        else:
+            ret = self.realSaveScreenPyGUI(prefix,regionIn)
+        elsapsedTime = datetime.now() - startTime
+        self._container.Logger().debug("Screenshot Elsapsed Time " + str(elsapsedTime))
+        return ret
+            
+    def realSaveScreenMSS(self,prefix,regionIn = None):
+        self._container.Logger().debug("Using MSS")
+        timeStamp = datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
+        path = os.path.join(self.root_dir, prefix + '-' + timeStamp + '.png')
+        with mss.mss() as sct:
+            sct.compression_level = 3
+            if regionIn <> None:
+                # The screen part to capture ltwh
+                monitor = {"top": regionIn[1], "left":  regionIn[0], "width":  regionIn[2], "height":  regionIn[3]}
+
+                # Grab the data
+                sct_img = sct.grab(monitor)
+                mss.tools.to_png(sct_img.rgb, sct_img.size, output=path)
+            else:
+                sct.shot(output=path)
+
+            return path       
+        
+    def realSaveScreenPyGUI(self,prefix,regionIn = None):
+        self._container.Logger().debug("Using Auto Py")    
         timeStamp = datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
         if regionIn <> None:
             pic = pyautogui.screenshot(region=regionIn)
         else:
             pic = pyautogui.screenshot()
 
-        path = os.path.join(self.root_dir, prefix + '-' + timeStamp + '.png')
+        path = os.path.join(self.root_dir, prefix + '-' + timeStamp + '.jpg')
         pic.save(path)
         return path        
-    
+        
     def do_instructions(self,input):
         #remove after testing
         time.sleep(5)
